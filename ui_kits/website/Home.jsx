@@ -1,39 +1,30 @@
-/* Heads Up — Home page sections.
-   Main landing page: split hero, story rows (editorial), start-a-club steps.
-   Uses pages.css (.hhero, .storyrow, .intro, .steps) + extras.css (.casc). */
+/* Heads Up — Home page sections. Blue-dominant, moss/cream accent. */
 
 function HomeHero() {
-  const colRef = useRef(null);
-  useEffect(() => {
-    const el = colRef.current;
-    if (el) requestAnimationFrame(() => el.classList.add('play'));
-  }, []);
   return (
     <header className="hhero" id="top">
       <div className="wrap">
         <div className="grid">
           <div>
-            <Sticker tone="sky" tilt="tilt-l" icon="sparkles">Youth-for-youth</Sticker>
-            <h1>The student-led movement for <DrawHL>digital balance.</DrawHL></h1>
-            <p className="lead">High schoolers across the U.S. are building healthier relationships with technology — peer by peer, club by club.</p>
+            <div className="kicker-row" style={{ display: 'flex', alignItems: 'center', gap: 14, flexWrap: 'wrap' }}>
+              <Sticker tone="cobalt" tilt="tilt-l" icon="heart">Youth-for-youth · est. 2020</Sticker>
+            </div>
+            <h1>Helping students <DrawHL>look up.</DrawHL></h1>
+            <p className="lead">Heads Up is a student-led movement for digital balance. We started in one dining hall and a single club — now we run clubs, mentorship, and campaigns across the country, built entirely by the people Big Tech is trying hardest to keep scrolling.</p>
             <div className="cta-row">
-              <a href="https://www.headsupclubs.org/start-a-club" target="_blank" rel="noopener">
-                <Button variant="primary" size="lg" iconRight="arrowRight">Start a club</Button>
-              </a>
-              <a href="index.html">
-                <Button variant="secondary" size="lg">Our story</Button>
-              </a>
+              <a href="initiatives.html"><Button variant="primary" size="lg" iconRight="arrowRight">Start a club</Button></a>
+              <a href="mentor-program.html"><Button variant="secondary" size="lg">Become a mentor</Button></a>
             </div>
             <div className="trust">
-              <div><b>40+</b><span>Active clubs</span></div>
-              <div><b>2K+</b><span>Students</span></div>
-              <div><b>13</b><span>Partners</span></div>
+              <div><b>120+</b><span>chapters</span></div>
+              <div><b>38</b><span>states</span></div>
+              <div><b>10K+</b><span>students reached</span></div>
             </div>
           </div>
-          <div className="hhero-collage" ref={colRef}>
-            <Polaroid tape caption="Weekly meeting" />
-            <Polaroid caption="Club kickoff" />
-            <Polaroid tape caption="Student leaders" />
+          <div className="hhero-collage">
+            <Polaroid src={HU_IMG.deerfield} alt="Deerfield Academy campus in snow" caption="Where it started" />
+            <Polaroid src={HU_IMG.classroom} alt="Students giving a Heads Up presentation" caption="Our first meeting" />
+            <Polaroid alt="A phone-free club hangout" caption="Add your chapter" />
           </div>
         </div>
       </div>
@@ -41,56 +32,45 @@ function HomeHero() {
   );
 }
 
-const ROWS = [
-  {
-    eyebrow: 'Clubs', fig: '01', flip: false,
-    h2: 'Every chapter is 100% student-run.',
-    p: 'Heads Up clubs hold weekly meetings where members track habits, share strategies, and lift each other up — without any adult running the show.',
-    href: 'initiatives.html', link: 'See all initiatives',
-  },
-  {
-    eyebrow: 'Mentorship', fig: '02', flip: true,
-    h2: 'Older students mentor younger ones.',
-    p: 'Our mentor program pairs experienced chapter leaders with newer members, creating a sustainable pipeline of digital wellness advocates across grade levels.',
-    href: 'mentor-program.html', link: 'Mentor program',
-  },
-  {
-    eyebrow: 'Impact', fig: '03', flip: false,
-    h2: 'Real change, measured in hours.',
-    p: 'Members report cutting recreational screen time by an average of 1.5 hours per day within the first semester — not by willpower, but by community.',
-    href: 'partners.html', link: 'Our partners',
-  },
-];
-
-function HomeStories() {
+/* Origin + approach — alternating image/text rows (image-led, St-Jude-style) */
+function HomeStory() {
+  const rows = [
+    {
+      num: '01', eyebrow: 'Where it started',
+      h: 'One dining hall. One club. One honest conversation.',
+      p: 'Heads Up began at a single school, when a handful of students got real about how much their phones were running their days — and decided to do something about it together. That first club became a blueprint other schools could pick up and run with.',
+      cut: 'Fig. 01 — Where Heads Up began.',
+      cta: 'Read our story', href: 'index.html',
+    },
+    {
+      num: '02', eyebrow: 'Why youth-for-youth works',
+      h: 'The people Big Tech targets, designing the way out.',
+      p: 'We’re the audience these platforms are built to keep scrolling, so we know what actually lands with our peers. Every club, campaign, and module is shaped by students — no middleman, and no lectures from adults who don’t quite get it.',
+      cut: 'Fig. 02 — Students leading a session.',
+      cta: 'See our programs', href: 'initiatives.html',
+    },
+  ];
   return (
-    <section className="section" id="how-it-works">
+    <section className="section" id="story">
       <div className="wrap">
-        <Reveal className="intro">
-          <div className="row">
-            <Sticker tone="cobalt" tilt="tilt-r" icon="users">How it works</Sticker>
-          </div>
-          <h2>Built by students. Backed by research. Proven by results.</h2>
-          <p>Three pillars that make Heads Up actually work — unlike every other screen-time program aimed at teenagers.</p>
-        </Reveal>
         <div className="story-rows">
-          {ROWS.map((r) => (
-            <div className={'storyrow' + (r.flip ? ' flip' : '')} key={r.fig}>
-              <div className="storyrow-media">
-                <figure>
-                  <Placeholder ratio="5/4" />
-                  <div className="rowcut">{r.eyebrow} — Fig. {r.fig}</div>
-                </figure>
+          {rows.map((r, i) => (
+            <Reveal key={i}>
+              <div className={'storyrow' + (i % 2 ? ' flip' : '')}>
+                <div className="storyrow-media">
+                  <figure>
+                    <Placeholder ratio="5/4" />
+                    <figcaption className="rowcut">{r.cut}</figcaption>
+                  </figure>
+                </div>
+                <div className="storyrow-body">
+                  <div className="eyebrow"><span className="fig">{r.num}</span>{r.eyebrow}</div>
+                  <h2>{r.h}</h2>
+                  <p>{r.p}</p>
+                  <a className="textlink" href={r.href}>{r.cta}<Icon name="arrowRight" size={15} /></a>
+                </div>
               </div>
-              <div className="storyrow-body">
-                <div className="eyebrow">{r.eyebrow}<span className="fig">{r.fig}</span></div>
-                <h2>{r.h2}</h2>
-                <p>{r.p}</p>
-                <a className="textlink" href={r.href}>
-                  {r.link}<Icon name="arrowRight" size={14} />
-                </a>
-              </div>
-            </div>
+            </Reveal>
           ))}
         </div>
       </div>
@@ -98,43 +78,54 @@ function HomeStories() {
   );
 }
 
-const HOME_STEPS = [
-  { num: '01', h: 'Start the conversation', p: 'Bring the idea to your school — talk to a teacher, advisor, or just friends who get it.' },
-  { num: '02', h: 'Register your chapter',  p: 'Fill out our short form and get the full curriculum, meeting guides, and community access.' },
-  { num: '03', h: 'Run your first meeting', p: "You lead it. We give you everything you need — agenda, activities, support from chapters nationwide." },
-];
-
-function HomeStartAClub() {
+/* What we do — links to the other pages */
+function WhatWeDo() {
+  const cards = [
+    { icon: 'users', h: 'Club Champions', p: 'Found a Heads Up club at your school and lead the change locally.', cta: 'Start a club', href: 'initiatives.html' },
+    { icon: 'megaphone', h: 'Ambassadors', p: 'A flexible role for students who want to help without running a club.', cta: 'Join in', href: 'initiatives.html' },
+    { icon: 'heart', h: 'Mentor Program', p: 'Guide a middle schooler — or get guided — toward healthier tech habits.', cta: 'Mentor or mentee', href: 'mentor-program.html' },
+    { icon: 'bookOpen', h: 'Learning Modules', p: 'Explore 10+ digital-wellness topics and earn a certification.', cta: 'Explore', href: 'initiatives.html' },
+  ];
   return (
-    <section className="section" id="start">
+    <section className="section" id="what-we-do" style={{ paddingBottom: 56 }}>
       <div className="wrap">
-        <div className="steps">
-          <Reveal className="sec-head">
-            <Eyebrow>Start a club</Eyebrow>
-            <h2>Three steps to your first meeting.</h2>
-            <p className="sub">No approval, no budget, no special equipment. Just students who care.</p>
-          </Reveal>
-          <Cascade className="step-row" step={80}>
-            {HOME_STEPS.map((s) => (
-              <div className="step" key={s.num}>
-                <div className="num">{s.num}</div>
-                <h3>{s.h}</h3>
-                <p>{s.p}</p>
-              </div>
-            ))}
-          </Cascade>
-          <div className="cta-row">
-            <a href="https://www.headsupclubs.org/start-a-club" target="_blank" rel="noopener">
-              <Button variant="white" size="lg" iconRight="arrowRight">Start a club</Button>
-            </a>
-            <a href="index.html">
-              <Button variant="secondary" size="lg">Learn about us</Button>
-            </a>
-          </div>
+        <div className="intro">
+          <div className="row"><Sticker tone="cobalt" tilt="tilt-r" icon="sparkles">What we do</Sticker></div>
+          <h2>Find your way in.</h2>
+          <p>Whatever your time and energy, there's a Heads Up role that fits — every one of them youth-led.</p>
         </div>
+        <Cascade className="feature-grid" step={100} style={{ '--cols': 4 }}>
+          {cards.map((c, i) => (
+            <a className="feature" href={c.href} key={i}>
+              <span className="fic"><Icon name={c.icon} size={30} /></span>
+              <h3>{c.h}</h3>
+              <p>{c.p}</p>
+              <span className="more">{c.cta}<Icon name="arrowRight" size={15} /></span>
+            </a>
+          ))}
+        </Cascade>
       </div>
     </section>
   );
 }
 
-Object.assign(window, { HomeHero, HomeStories, HomeStartAClub });
+/* Mission band (home variant) */
+function HomeMission() {
+  return (
+    <section className="section" id="mission" style={{ paddingTop: 24 }}>
+      <div className="wrap">
+        <Reveal>
+          <div className="mission">
+            <img className="bgmark" src="../../assets/logo-mark-white.png" alt="" />
+            <div className="eyebrow">Our mission</div>
+            <h2>Why we put our phones down first.</h2>
+            <p className="mtext">We empower high school communities across the U.S. to lead more digitally balanced lifestyles with our <DrawHL>youth-for-youth</DrawHL> programming.</p>
+            <p className="mtext">As Big Tech's target audience, we've learned through experience what actually motivates our peers — <strong>there's no middleman.</strong> We use that to design our clubs, campaigns, and programming for the most impact possible.</p>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+Object.assign(window, { HomeHero, HomeStory, WhatWeDo, HomeMission });

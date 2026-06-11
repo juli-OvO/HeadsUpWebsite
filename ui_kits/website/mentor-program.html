@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- @dsCard group="UI Kit — Website" name="Mentor Program page" subtitle="Prog blocks, whiteboard flow, parallel roles, howto steps — cobalt with moss accent" viewport="1200x760" -->
+<!-- @dsCard group="UI Kit — Website" name="Mentor Program page" subtitle="Mentors + mentees, self-paced track — blue with moss accent" -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -21,20 +21,36 @@
 <div id="root"></div>
 <script type="text/babel" src="icons.jsx?v=3"></script>
 <script type="text/babel" src="primitives.jsx?v=6"></script>
+<script type="text/babel" src="images.jsx?v=1"></script>
 <script type="text/babel" src="NavBar.jsx?v=8"></script>
 <script type="text/babel" src="Footer.jsx?v=5"></script>
-<script type="text/babel" src="MentorProgram.jsx?v=1"></script>
+<script type="text/babel" src="MoreSections.jsx?v=1"></script>
+<script type="text/babel" src="MentorProgram.jsx?v=2"></script>
 <script type="text/babel">
+  function YouthBandLite() {
+    return (
+      <section className="youth" id="youth">
+        <div className="wrap">
+          <Reveal>
+            <div className="big">Youth <DrawHL>for</DrawHL> youth.</div>
+            <div className="cta-row">
+              <a href="https://docs.google.com/forms/d/e/1FAIpQLSeHSftLNXLcxp4BUtSXoVrYTd6adX_yMpRDX-qzlA8skXVf9Q/viewform" target="_blank" rel="noopener"><Button variant="primary" size="lg" iconRight="arrowRight">Become a Mentor</Button></a>
+              <a href="https://docs.google.com/forms/d/e/1FAIpQLSczCtDJAXyBj1xmD9Zk4ncYrtLhlI6pE-S9OlwDIcexHCZkQg/viewform" target="_blank" rel="noopener"><Button variant="secondary" size="lg">Become a Mentee</Button></a>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+    );
+  }
   function App() {
     return (
       <React.Fragment>
         <NavBar active="Mentor Program" />
         <main>
           <MentorHero />
-          <ProgramBlocks />
-          <HowItWorks />
-          <Roles />
-          <HowToApply />
+          <MentorPrograms />
+          <MentorHow />
+          <YouthBandLite />
         </main>
         <Footer />
       </React.Fragment>

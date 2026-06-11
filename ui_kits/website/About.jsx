@@ -1,105 +1,86 @@
-/* Heads Up — About page sections.
-   Club scrapbook aesthetic: hero polaroid collage, impact stats,
-   story + screen-time meter, mission panel, testimonials, youth CTA.
-   Cobalt-dominant, sky accents. Shares site.css + extras.css with all pages. */
+/* About hero — Heads Up */
+const IMG_DEERFIELD = 'https://images.squarespace-cdn.com/content/v1/6539ab5e8546184840057d16/d60216b9-e05c-4181-b15a-e615cf0a9b21/Screen+Shot+2023-11-11+at+3.30.24+PM.png';
+const IMG_CLASSROOM = 'https://images.squarespace-cdn.com/content/v1/6539ab5e8546184840057d16/ad9d9b16-8310-4bf9-9405-d94fb0263b3e/IMG_2424.JPG';
 
-/* ---- Hero ---- */
-function AboutHero() {
-  const colRef = useRef(null);
-  useEffect(() => {
-    const el = colRef.current;
-    if (el) requestAnimationFrame(() => el.classList.add('play'));
-  }, []);
+function Hero() {
   return (
     <header className="hero" id="top">
       <div className="wrap">
-        <div className="kicker-row">
-          <Sticker tone="sky" tilt="tilt-l" icon="sparkles">Since 2020</Sticker>
-          <Sticker tilt="tilt-r" icon="users">Youth-led · Nationwide</Sticker>
+        <div className="kicker-row" style={{ flexWrap: 'wrap' }}>
+          <Sticker tone="cobalt" tilt="tilt-l" icon="users">About Us</Sticker>
+          <span className="hand" style={{ fontSize: 23, color: 'var(--cobalt-600)', whiteSpace: 'nowrap' }}>est. 2020 · Deerfield Academy</span>
         </div>
-        <h1>Building a more <DrawHL>digitally balanced</DrawHL> generation.</h1>
-        <p className="lead">
-          Heads Up is a student-run nonprofit helping high schoolers across the U.S. take back
-          control of their screen time — through peer-led clubs, real mentorship, and honest
-          conversations about digital wellness.
-        </p>
+        <h1>Students helping students <DrawHL>look up.</DrawHL></h1>
+        <p className="lead">Heads Up is a youth-for-youth movement for digital balance. We started in one dining hall and a single club — and we're still run entirely by the people Big Tech is trying hardest to keep scrolling.</p>
         <div className="hero-stickers">
-          <Sticker tone="cobalt" tilt="tilt-l2" icon="users">40+ clubs</Sticker>
-          <Sticker tilt="tilt-r">Youth-led 501(c)(3)</Sticker>
-          <Sticker tone="cobalt" tilt="tilt-l" icon="mapPin">Nationwide</Sticker>
+          <Sticker tilt="tilt-r">Youth-for-youth</Sticker>
+          <Sticker tone="sky" tilt="tilt-l2" icon="heart">No middleman</Sticker>
+          <Sticker tilt="tilt-l" icon="users">By students, for students</Sticker>
         </div>
-        <div className="collage" ref={colRef}>
-          <Polaroid tape caption="First club, 2020" />
-          <Polaroid caption="Students leading the way" />
-          <Polaroid tape caption="A session in action" />
+
+        <div className="collage play">
+          <Polaroid src={IMG_DEERFIELD} tape alt="Deerfield Academy campus in snow"
+            fallback="Deerfield Academy" caption="where it started" />
+          <Polaroid src={IMG_CLASSROOM} tape alt="Students giving a Heads Up presentation"
+            fallback="A club presentation" caption="our first club meeting" />
+          <Polaroid tape alt="A phone-free club hangout"
+            fallback="Drop a club photo" caption="add your chapter!" />
         </div>
       </div>
     </header>
   );
 }
 
-/* ---- Impact Stats ---- */
-const STATS = [
-  { num: '40', suf: '+', label: 'Active clubs',       foot: 'and growing every semester' },
-  { num: '2K', suf: '+', label: 'Students reached',   foot: 'across the U.S.' },
-  { num: '13', suf: '',  label: 'Partners & backers', foot: 'foundations to local brands' },
-  { num: '50', suf: '+', label: 'Schools',            foot: 'middle & high school' },
-];
-
-function ImpactStats() {
-  return (
-    <section className="impact section">
-      <div className="wrap">
-        <Cascade className="stat-row" step={60}>
-          {STATS.map((s) => (
-            <div className="stat" key={s.label}>
-              <div className="stat-num">{s.num}<span className="suf">{s.suf}</span></div>
-              <div className="stat-label">{s.label}</div>
-              <div className="stat-foot"><Icon name="sparkles" size={16} />{s.foot}</div>
-            </div>
-          ))}
-        </Cascade>
-      </div>
-    </section>
-  );
+/* count-up number, fires when `play` flips true */
+function Count({ to, play, delay = 0, dur = 950 }) {
+  const [n, setN] = useState(0);
+  useEffect(() => {
+    if (!play) return;
+    let raf, start;
+    const t = setTimeout(() => {
+      const step = (ts) => {
+        if (!start) start = ts;
+        const p = Math.min((ts - start) / dur, 1);
+        setN(Math.round(p * to));
+        if (p < 1) raf = requestAnimationFrame(step);
+      };
+      raf = requestAnimationFrame(step);
+    }, delay);
+    return () => { clearTimeout(t); cancelAnimationFrame(raf); };
+  }, [play, to, delay, dur]);
+  return <React.Fragment>{n}</React.Fragment>;
 }
 
-/* ---- Animated screen-time meter ---- */
-function ScreenMeter() {
+/* screen-time meter: bars grow + numbers count up when scrolled into view */
+function ScreenTimeMeter() {
   const ref = useRef(null);
+  const [play, setPlay] = useState(false);
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const fills = Array.from(el.querySelectorAll('.meter-fill'));
-    const io = new IntersectionObserver(([e]) => {
-      fills.forEach(f => { f.style.width = e.isIntersecting ? f.dataset.w : '0'; });
+    const io = new IntersectionObserver((es) => {
+      es.forEach((e) => { if (e.isIntersecting) { setPlay(true); io.disconnect(); } });
     }, { threshold: 0.4 });
     io.observe(el);
     return () => io.disconnect();
   }, []);
-
-  const rows = [
-    { label: 'Social media',    val: '4.8h', pct: 60, up: true, delta: '+47%' },
-    { label: 'Gaming & apps',   val: '2.3h', pct: 29, up: false },
-    { label: 'Video streaming', val: '2.1h', pct: 26, up: false },
-    { label: 'Messaging',       val: '1.7h', pct: 21, up: false },
+  const MAX = 10;
+  const bars = [
+    { label: '2020', hours: 5 },
+    { label: 'During the pandemic', hours: 8, up: true },
   ];
-
   return (
     <div className="meter" ref={ref}>
       <div className="meter-head">
-        <span className="eyebrow">Avg teen daily screen time</span>
-        <span className="meter-scale">0h —————— 8h</span>
+        <span className="eyebrow">Avg. hours online / day</span>
+        <span className="meter-scale">scale 0–{MAX}h</span>
       </div>
-      {rows.map(r => (
-        <div className={'meter-row' + (r.up ? ' up' : '')} key={r.label}>
-          <div className="meter-label">
-            {r.label}
-            {r.delta ? <span className="meter-delta">{r.delta}</span> : null}
-          </div>
+      {bars.map((b, i) => (
+        <div className={'meter-row' + (b.up ? ' up' : '')} key={i}>
+          <div className="meter-label">{b.label}{b.up ? <span className="meter-delta">+3h</span> : null}</div>
           <div className="meter-track">
-            <div className="meter-fill" data-w={r.pct + '%'} style={{ width: 0 }}>
-              <span className="meter-val">{r.val}</span>
+            <div className="meter-fill" style={{ width: play ? (b.hours / MAX * 100) + '%' : '0%', transitionDelay: (0.15 + i * 0.35) + 's' }}>
+              <span className="meter-val"><Count to={b.hours} play={play} delay={150 + i * 350} />h</span>
             </div>
           </div>
         </div>
@@ -108,170 +89,83 @@ function ScreenMeter() {
   );
 }
 
-/* ---- Our story ---- */
-function OurStory() {
+function FirstClub() {
   return (
-    <section className="section" id="story">
+    <section className="section" id="first-club">
       <div className="wrap">
         <div className="story-grid">
           <Reveal>
-            <Polaroid tape caption="Founder Brinton Donn, 2020" />
+            <Polaroid src={IMG_DEERFIELD} tape alt="Deerfield Academy campus in snow"
+              fallback="Deerfield Academy" caption="Deerfield Academy, winter '20" />
           </Reveal>
-          <Reveal delay={80}>
-            <div className="section-label">
-              <span className="eyebrow">Our story</span>
-              <h2>It started with one student asking why.</h2>
-            </div>
-            <div className="prose">
-              <p>In 2020, Brinton Donn noticed something at his high school: everyone — himself included — was glued to their screens and no one was talking about it. So he started a club.</p>
-              <p className="big-callout">One club became a movement. Now Heads Up has chapters in high schools across the country, all run by students for students.</p>
-            </div>
-            <ScreenMeter />
-            <div className="founder">
-              <div className="ava">BD</div>
-              <div className="who">
-                <b>Brinton Donn</b>
-                <span>Founder &amp; Executive Director</span>
+          <div className="story-col">
+            <Reveal delay={120}>
+              <div className="section-label">
+                <Sticker tone="cobalt" tilt="tilt-l">01</Sticker>
+                <h2>Our first club.</h2>
               </div>
-            </div>
-          </Reveal>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ---- What we do ---- */
-function WhatWeDo() {
-  return (
-    <section className="section" id="what-we-do" style={{ paddingTop: 0 }}>
-      <div className="wrap">
-        <div className="story-grid flip">
-          <Reveal>
-            <div className="section-label">
-              <span className="eyebrow">What we do</span>
-              <h2>Peer-led clubs that actually move the needle.</h2>
-            </div>
-            <div className="prose">
-              <p>Each Heads Up chapter is run entirely by students. Members hold weekly meetings, track their own habits, and support each other toward a healthier relationship with technology.</p>
-              <p>We provide the curriculum, training, and national community — students do the rest.</p>
-            </div>
-            <div className="hero-stickers" style={{ marginTop: 24 }}>
-              <Sticker icon="bookOpen">Curriculum</Sticker>
-              <Sticker tone="cobalt" icon="users">Peer mentorship</Sticker>
-              <Sticker icon="calendar">Weekly meetings</Sticker>
-            </div>
-          </Reveal>
-          <Reveal delay={80}>
-            <Polaroid caption="Weekly chapter session" />
-          </Reveal>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ---- Mission ---- */
-function Mission() {
-  return (
-    <section className="section" id="mission" style={{ paddingTop: 0 }}>
-      <div className="wrap">
-        <Reveal>
-          <div className="mission">
-            <img className="bgmark" src="../../assets/logo-mark-white.png" alt="" aria-hidden="true" />
-            <div className="eyebrow">Our mission</div>
-            <h2>Empower students to lead healthier digital lives — together.</h2>
-            <p className="mtext">
-              We believe the best people to teach teenagers about screen balance are{' '}
-              <strong>other teenagers.</strong> Heads Up gives students the tools, training,
-              and community to build <span className="hl">genuine digital wellness</span> from
-              the inside out.
-            </p>
-            <div style={{ display: 'flex', gap: 14, marginTop: 36, flexWrap: 'wrap' }}>
-              <a href="https://www.headsupclubs.org/start-a-club" target="_blank" rel="noopener">
-                <Button variant="white" size="lg" iconRight="arrowRight">Start a club</Button>
-              </a>
-              <a href="https://www.headsupclubs.org/donate" target="_blank" rel="noopener">
-                <Button variant="secondary" size="lg">Support us</Button>
-              </a>
-            </div>
-          </div>
-        </Reveal>
-      </div>
-    </section>
-  );
-}
-
-/* ---- Testimonials ---- */
-const QUOTES = [
-  {
-    q: "Heads Up made me realize I wasn't alone. We all struggled with our phones — and talking about it with friends actually helped.",
-    name: 'Mia T.',
-    role: 'Club President, CA',
-    init: 'MT',
-  },
-  {
-    q: "I joined as a curious sophomore and left as a chapter lead. The peer support model actually works — it's not adults lecturing us.",
-    name: 'James R.',
-    role: 'Club Member, TX',
-    init: 'JR',
-  },
-  {
-    q: "Running a club taught me leadership skills I couldn't have gotten anywhere else. And yeah, I use my phone a lot less now.",
-    name: 'Priya S.',
-    role: 'Club Founder, NY',
-    init: 'PS',
-  },
-];
-
-function Testimonials() {
-  return (
-    <section className="section" id="testimonials">
-      <div className="wrap">
-        <Reveal className="sec-head">
-          <div className="row">
-            <Sticker tone="cobalt" tilt="tilt-r" icon="quote">From members</Sticker>
-          </div>
-          <h2>Heard it from our students.</h2>
-          <p className="sub">Real words from real students — the reason this whole thing exists.</p>
-        </Reveal>
-        <Cascade className="quote-row" step={80}>
-          {QUOTES.map((q) => (
-            <div className="quote" key={q.name}>
-              <div className="qmark"><Icon name="quote" size={28} /></div>
-              <blockquote>{q.q}</blockquote>
-              <div className="who">
-                <div className="ava">{q.init}</div>
-                <div>
-                  <b>{q.name}</b>
-                  <span>{q.role}</span>
+            </Reveal>
+            <Reveal delay={250}>
+              <div className="prose">
+                <p>Deerfield Academy branded itself as a "heads-up" campus — a place where putting your phone away when other people are around was supposed to be the norm. The reality looked different.</p>
+                <p>A 2020 study on campus found students were averaging about <strong>5 hours online a day.</strong> Then the pandemic hit.</p>
+              </div>
+            </Reveal>
+            <Reveal delay={380}>
+              <ScreenTimeMeter />
+            </Reveal>
+            <Reveal delay={510}>
+              <p className="big-callout">…and it only kept climbing.</p>
+            </Reveal>
+            <Reveal delay={640}>
+              <div className="founder">
+                <div className="ava">DB</div>
+                <div className="who">
+                  <b>Diana Bishopp</b>
+                  <span>Founder &amp; Chair — started the first-ever Heads Up club, right there at Deerfield.</span>
                 </div>
               </div>
-            </div>
-          ))}
-        </Cascade>
+            </Reveal>
+          </div>
+        </div>
       </div>
     </section>
   );
 }
 
-/* ---- Youth CTA band ---- */
+function Mission() {
+  return (
+    <section className="section" id="mission">
+      <div className="wrap">
+        <div className="story-grid flip" style={{ alignItems: 'center' }}>
+          <Reveal>
+            <div className="mission">
+              <img className="bgmark" src="../../assets/logo-mark-white.png" alt="" />
+              <div className="eyebrow">Our mission</div>
+              <h2>Why we put our phones down first.</h2>
+              <p className="mtext">We empower high school communities across the U.S. to lead more digitally balanced lifestyles with our <DrawHL>youth-for-youth</DrawHL> programming.</p>
+              <p className="mtext">As Big Tech's target audience, we've learned through experience what actually motivates our peers — <strong>there's no middleman.</strong> We use that to design our clubs, campaigns, and programming for the most impact possible.</p>
+            </div>
+          </Reveal>
+          <Reveal delay={500}>
+            <Polaroid src={IMG_CLASSROOM} tape alt="Students giving a Heads Up presentation"
+              fallback="A club presentation" caption="running a session, our way" />
+          </Reveal>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function YouthBand() {
   return (
-    <section className="youth">
+    <section className="youth" id="youth">
       <div className="wrap">
         <Reveal>
-          <div className="big">
-            youth.<br />for.<br /><DrawHL>youth.</DrawHL>
-          </div>
-          <p className="sub">Students helping students — one club at a time.</p>
+          <div className="big">Youth <DrawHL>for</DrawHL> youth.</div>
           <div className="cta-row">
-            <a href="https://www.headsupclubs.org/start-a-club" target="_blank" rel="noopener">
-              <Button variant="primary" size="lg" iconRight="arrowRight">Start a club</Button>
-            </a>
-            <a href="partners.html">
-              <Button variant="secondary" size="lg">Our partners</Button>
-            </a>
+            <Button variant="primary" size="lg" iconRight="arrowRight">Start a club</Button>
+            <Button variant="secondary" size="lg">Meet the team</Button>
           </div>
         </Reveal>
       </div>
@@ -279,4 +173,4 @@ function YouthBand() {
   );
 }
 
-Object.assign(window, { AboutHero, ImpactStats, OurStory, WhatWeDo, Mission, Testimonials, YouthBand });
+Object.assign(window, { Hero, FirstClub, Mission, YouthBand });

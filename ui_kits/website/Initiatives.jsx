@@ -1,47 +1,74 @@
-/* Heads Up — Initiatives page sections.
-   All programs: feature grid, start-a-club steps, interactive chapter map, FAQ.
-   Uses pages.css (.phero, .feature-grid) + extras.css (.steps, .chap-layout, .faq-wrap). */
+/* Heads Up — Initiatives page sections (divider-led).
+   Content from headsupclubs.org/initiatives. Blue-dominant, moss/cream accent. */
 
 function InitiativesHero() {
   return (
     <header className="phero" id="top">
       <div className="wrap">
         <div className="kicker-row">
-          <Sticker tone="cobalt" tilt="tilt-l" icon="sparkles">Initiatives</Sticker>
-          <span className="hand">what we're actually doing</span>
+          <Sticker tone="cobalt" tilt="tilt-l" icon="sparkles">Our Initiatives</Sticker>
+          <span className="hand">pick your way in</span>
         </div>
-        <h1>Programs built by students, <DrawHL>for students.</DrawHL></h1>
-        <p className="lead">From school clubs and peer mentorship to research and digital detox challenges — every Heads Up initiative is student-designed, student-run, and student-measured.</p>
+        <h1>So many ways to <DrawHL>take action.</DrawHL></h1>
+        <p className="lead">From founding a club at your school to flexible ambassador roles, learning modules, and podcasts — every Heads Up initiative is youth-led and built to fight the digital-addiction crisis from the inside.</p>
+        <div className="hero-stickers">
+          <Sticker tilt="tilt-r" icon="users">Club Champions</Sticker>
+          <Sticker tone="sky" tilt="tilt-l2" icon="megaphone">Ambassadors</Sticker>
+          <Sticker tilt="tilt-l" icon="bookOpen">Learning modules</Sticker>
+        </div>
       </div>
     </header>
   );
 }
 
-const FEATURES = [
-  { icon: 'users',     h: 'School Clubs',            p: 'Student-run chapters holding weekly meetings, tracking habits, and building peer accountability — school by school.' },
-  { icon: 'heart',     h: 'Mentor Match',            p: 'Experienced members paired with newer students for 1-on-1 support, habit coaching, and leadership development.' },
-  { icon: 'smartphone',h: 'Digital Detox Challenges',p: 'School-wide and national screen-free events that make reducing phone use a social, shared experience — not a punishment.' },
-  { icon: 'bookOpen',  h: 'Curriculum Library',      p: 'Self-paced learning modules for clubs, classrooms, and individuals covering everything from social media to sleep.' },
-  { icon: 'search',    h: 'Research & Reports',      p: 'We publish data on teen digital wellness trends, partnering with foundations to put student voices in the conversation.' },
-  { icon: 'megaphone', h: 'Speaker Network',         p: 'Student speakers visit schools, conferences, and events to share the Heads Up story and inspire new chapters.' },
-];
-
-function InitiativeFeatures() {
+/* Club Champions ‖ Ambassadors — two parallel, equal roles */
+function GetInvolved() {
+  const steps = [
+    'Fill out our Club Champion Form to join the Heads Up club database',
+    'Watch our orientation videos to begin your Heads Up onboarding',
+    'Meet with our CCO to set your goals and get any resources you need',
+    'Recruit a leadership board and general members',
+    'Make your plan for impact clear, with goals for every semester',
+    'Reach out to our national board with any questions you have',
+  ];
   return (
-    <section className="section" id="programs">
+    <section className="section" id="get-involved" style={{ paddingBottom: 64 }}>
       <div className="wrap">
         <Reveal className="sec-head">
-          <div className="row"><Sticker tone="cobalt" tilt="tilt-r" icon="sparkles">What we run</Sticker></div>
-          <h2>Six programs. One mission.</h2>
-          <p className="sub">Every initiative is designed to work at the school level — run by students, scaled by students.</p>
+          <div className="row"><Sticker tone="cobalt" tilt="tilt-r" icon="users">Two ways to lead</Sticker></div>
+          <h2>Champion or Ambassador.</h2>
+          <p className="sub">Two parallel roles for getting involved — pick the commitment that fits you.</p>
         </Reveal>
-        <Cascade className="feature-grid" step={70}>
-          {FEATURES.map((f) => (
-            <div className="feature" key={f.h}>
-              <div className="fic"><Icon name={f.icon} size={22} /></div>
-              <h3>{f.h}</h3>
-              <p>{f.p}</p>
-            </div>
+        <Cascade className="parallel" step={140}>
+          <div className="par-col">
+            <div className="meta"><Icon name="users" size={15} />01 · Found &amp; lead a club</div>
+            <h2 className="ttl">Club Champions</h2>
+            <p className="desc">Dedicated youth advocates who form Heads Up Clubs to take action against the digital-addiction crisis. Champions work consistently to support other youth in their transition to a healthier way of life.</p>
+            <a href="https://forms.gle/ouoSaTopzCem2Uv88" target="_blank" rel="noopener">
+              <Button variant="primary" size="lg" iconRight="arrowRight">Register your club</Button>
+            </a>
+          </div>
+          <div className="par-col">
+            <div className="meta"><Icon name="megaphone" size={15} />02 · Flexible, on your schedule</div>
+            <h2 className="ttl">Ambassadors</h2>
+            <p className="desc">Driven students passionate about promoting productive use of technology. A lighter commitment — ideal for those eager to join the community but not ready to run their own club.</p>
+            <a href="https://forms.gle/RhWoWnRb8b3PjZJm9" target="_blank" rel="noopener">
+              <Button variant="moss" size="lg" iconRight="arrowRight">Become an Ambassador</Button>
+            </a>
+          </div>
+        </Cascade>
+
+        <Hr style={{ margin: '52px 0 36px' }} />
+
+        <div className="howto-head">
+          <span className="eyebrow">How to start a club at your school</span>
+        </div>
+        <Cascade className="howto" as="ol" step={70}>
+          {steps.map((s, i) => (
+            <li className="howto-step" key={i}>
+              <span className="n">{i + 1}</span>
+              <p>{s}</p>
+            </li>
           ))}
         </Cascade>
       </div>
@@ -49,152 +76,47 @@ function InitiativeFeatures() {
   );
 }
 
-const INIT_STEPS = [
-  { num: '01', h: 'Talk to your school',  p: 'Find a faculty advisor and get approval from your administration. Most schools say yes within a week.' },
-  { num: '02', h: 'Register your chapter', p: 'Complete the short registration form on headsupclubs.org. Unlock the full curriculum and community.' },
-  { num: '03', h: 'Run your first meeting', p: 'Use our ready-made agenda, activities, and discussion guides. Your first meeting is already planned for you.' },
-];
-
-function InitStartAClub() {
+/* Other programming — divided feature columns */
+function OtherProgramming() {
+  const cards = [
+    { icon: 'bookOpen', h: 'Learning Modules', p: 'Learn about 10+ digital-wellness topics and spread our mission. Complete the modules to earn a Heads Up certification.', cta: 'Explore modules' },
+    { icon: 'music', h: 'Podcasts', p: 'Five podcast lessons made with GoYogi, focused on tips and tricks you can use daily to improve your relationship with technology.', cta: 'Listen now' },
+    { icon: 'users', h: 'Mentorship', p: 'A brand-new mentee and mentor program helping middle schoolers build a healthy relationship with social media.', cta: 'See the program', href: 'mentor-program.html' },
+  ];
   return (
-    <section className="section" id="start">
-      <div className="wrap">
-        <div className="steps">
-          <Reveal className="sec-head">
-            <Eyebrow>Start a club</Eyebrow>
-            <h2>Launch a chapter at your school.</h2>
-            <p className="sub">No budget, no equipment, no prior experience — just students who want to make a difference.</p>
-          </Reveal>
-          <Cascade className="step-row" step={80}>
-            {INIT_STEPS.map((s) => (
-              <div className="step" key={s.num}>
-                <div className="num">{s.num}</div>
-                <h3>{s.h}</h3>
-                <p>{s.p}</p>
-              </div>
-            ))}
-          </Cascade>
-          <div className="cta-row">
-            <a href="https://www.headsupclubs.org/start-a-club" target="_blank" rel="noopener">
-              <Button variant="white" size="lg" iconRight="arrowRight">Start a club</Button>
-            </a>
-            <a href="mentor-program.html">
-              <Button variant="secondary" size="lg">Mentor program</Button>
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-const CHAPTERS = [
-  { id: 'ca',  name: 'Newport Harbor HS',     city: 'Newport Beach, CA', x:  8, y: 55, members: 24 },
-  { id: 'wa',  name: 'Roosevelt HS',          city: 'Seattle, WA',       x:  9, y: 18, members: 16 },
-  { id: 'tx',  name: 'Austin High School',    city: 'Austin, TX',        x: 42, y: 68, members: 19 },
-  { id: 'il',  name: 'Naperville Central HS', city: 'Naperville, IL',    x: 60, y: 38, members: 22 },
-  { id: 'nj',  name: 'Haddonfield Memorial',  city: 'Haddonfield, NJ',   x: 80, y: 31, members: 27 },
-  { id: 'fl',  name: 'Coral Gables HS',       city: 'Coral Gables, FL',  x: 72, y: 78, members: 14 },
-  { id: 'ma',  name: 'Newton South HS',       city: 'Newton, MA',        x: 86, y: 22, members: 18 },
-];
-
-function ChapterMap() {
-  const [active, setActive] = useState(CHAPTERS[0]);
-  return (
-    <section className="section chapters" id="chapters">
-      <div className="wrap">
-        <Reveal className="sec-head" style={{ marginBottom: 36 }}>
-          <div className="row"><Sticker tone="cobalt" tilt="tilt-l" icon="mapPin">Where we are</Sticker></div>
-          <h2>Chapters across the country.</h2>
-          <p className="sub">Student-run clubs in schools from Seattle to Miami — and growing every semester.</p>
-        </Reveal>
-        <div className="chap-layout">
-          <div className="map-panel">
-            <div className="map-canvas">
-              <img className="map-usa-img" src="us-map.png" alt="US map showing chapter locations" />
-              {CHAPTERS.map((c) => (
-                <button
-                  key={c.id}
-                  className={'map-pin' + (active.id === c.id ? ' on' : '')}
-                  style={{ left: c.x + '%', top: c.y + '%' }}
-                  onClick={() => setActive(c)}
-                  aria-label={c.name}
-                >
-                  <span className="pin-dot" />
-                  <span className="pin-pulse" />
-                  <span className="pin-tag">{c.name}</span>
-                </button>
-              ))}
-              <div className="map-legend">
-                <span className="lg">
-                  <span className="sw" style={{ background: 'var(--cobalt-500)' }} />
-                  Active chapter
-                </span>
-              </div>
-              <div className="map-count">
-                <span className="live" />
-                40+ chapters nationwide
-              </div>
-            </div>
-            <div className="map-fig">
-              <span className="fig-no">Fig. 01</span>
-              <span className="fig-cap">Active Heads Up chapters as of Spring 2026. New clubs added each semester as students register.</span>
-            </div>
-          </div>
-          <div className="chap-side">
-            <div className="spotlight">
-              <div className="sl-head"><span className="sl-live" />Now viewing</div>
-              <div className="sl-name">{active.name}</div>
-              <div className="sl-city"><Icon name="mapPin" size={14} />{active.city}</div>
-              <div className="sl-metric">
-                <b>{active.members}</b>
-                <span>Active members this semester</span>
-              </div>
-              <div className="sl-hint"><Icon name="mapPin" size={16} />Click a pin to explore</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-const FAQ_ITEMS = [
-  { q: 'How do I start a Heads Up club at my school?', a: 'Register at headsupclubs.org/start-a-club. You\'ll need a faculty advisor and basic school approval — most chapters get started within a couple of weeks. We provide the full curriculum, meeting guides, and ongoing support.' },
-  { q: 'Do I need a teacher or adult to run the club?', a: 'You need a faculty advisor on paper (most schools require it for any extracurricular), but the club is entirely student-run. Your advisor doesn\'t need to attend every meeting or lead anything — that\'s your job.' },
-  { q: 'What does a typical Heads Up meeting look like?', a: 'Most meetings run 45–60 minutes and include a check-in, a habit-tracking activity, a short discussion or lesson from the curriculum, and time for peer support. The exact format is yours to adapt.' },
-  { q: 'Is there a cost to join or start a chapter?', a: 'No. Heads Up is completely free for students and schools. Our partners and donors cover all curriculum, training, and community costs so you never have to pay to participate.' },
-  { q: 'Can I start a club if I\'m the only interested student?', a: 'Yes — many chapters started with one person and a vision. We\'ll help you recruit. Our onboarding materials include tips for building interest, running a launch event, and growing your first roster.' },
-  { q: 'How is Heads Up different from other wellness programs?', a: 'Heads Up is peer-led, not adult-imposed. Research consistently shows that teenagers are more receptive to behavior change when it comes from peers their own age. Every Heads Up facilitator is a student.' },
-];
-
-function InitiativesFAQ() {
-  const [openIdx, setOpenIdx] = useState(null);
-  const toggle = (i) => setOpenIdx(openIdx === i ? null : i);
-  return (
-    <section className="section" id="faq">
+    <section className="section" id="programming" style={{ paddingTop: 32, borderTop: '1.5px solid var(--divider)' }}>
       <div className="wrap">
         <Reveal className="sec-head">
-          <div className="row"><Sticker tilt="tilt-r" icon="search">FAQ</Sticker></div>
-          <h2>Common questions.</h2>
-          <p className="sub">Everything you need to know before your first meeting.</p>
+          <div className="row"><Sticker tone="moss" tilt="tilt-l2" icon="sparkles">More programming</Sticker></div>
+          <h2>Other ways Heads Up shows up.</h2>
         </Reveal>
-        <div className="faq-wrap">
-          {FAQ_ITEMS.map((item, i) => (
-            <div className={'faq-item' + (openIdx === i ? ' open' : '')} key={i}>
-              <button className="faq-q" onClick={() => toggle(i)}>
-                {item.q}
-                <span className="tog">+</span>
-              </button>
-              <div className="faq-a">
-                <div className="faq-a-in">{item.a}</div>
-              </div>
-            </div>
-          ))}
-        </div>
+        <Cascade className="feature-grid" step={110} style={{ '--cols': 3 }}>
+          {cards.map((c, i) => {
+            const inner = (
+              <React.Fragment>
+                <span className="fic"><Icon name={c.icon} size={30} /></span>
+                <h3>{c.h}</h3>
+                <p>{c.p}</p>
+                <span className="more">{c.cta}<Icon name="arrowRight" size={15} /></span>
+              </React.Fragment>
+            );
+            return c.href
+              ? <a className="feature" href={c.href} key={i}>{inner}</a>
+              : <div className="feature" key={i}>{inner}</div>;
+          })}
+        </Cascade>
       </div>
     </section>
   );
 }
 
-Object.assign(window, { InitiativesHero, InitiativeFeatures, InitStartAClub, ChapterMap, InitiativesFAQ });
+const INITIATIVES_FAQ = [
+  { q: "How many people should I have on my club's board?", a: 'Heads Up requires at least 2 board members: a President and a Vice President. You can always add more positions as you see fit.' },
+  { q: 'How can I join the national board?', a: 'Navigate to our Team page and fill out the form linked at the bottom.' },
+  { q: "I don't have a lot of time — how else can I help?", a: 'Our Ambassador program is very flexible and lets you contribute whenever you have time.' },
+  { q: "I can't think of any activities to do with my club?", a: 'We’ve prepared a toolkit of activities for when you feel stuck. You can also meet with our Communications team to talk through options.' },
+  { q: 'Can my club start its own social media page?', a: 'Yes! As long as you follow Heads Up’s social-media guidelines, you’re welcome to start an account for your school.' },
+  { q: 'What is the time commitment to join the board?', a: 'National-board Directors spend ~2–3 hours/week and Chief Officers ~3–4 hours; general members ~1 hour/week. We lighten the load across all roles during exam season and college apps.' },
+];
+
+Object.assign(window, { InitiativesHero, GetInvolved, OtherProgramming, INITIATIVES_FAQ });
