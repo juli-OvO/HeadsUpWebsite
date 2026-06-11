@@ -1,0 +1,11 @@
+/* ============================================================
+   IRL Design System — single entry point.
+   Link THIS file to pull in the full system: the token + type
+   foundation first, then the UI-kit style layers that build on it.
+   (Each @import keeps its own relative url() resolution.)
+   ============================================================ */
+@import url('./colors_and_type.css');
+@import url('./ui_kits/website/site.css');
+@import url('./ui_kits/website/extras.css');
+@import url('./ui_kits/website/pages.css');
+@import url('./ui_kits/social/social.css');
