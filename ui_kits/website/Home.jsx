@@ -45,7 +45,7 @@ function HomeStory() {
     {
       num: '02', eyebrow: 'Why youth-for-youth works',
       h: 'The people Big Tech targets, designing the way out.',
-      p: 'We’re the audience these platforms are built to keep scrolling, so we know what actually lands with our peers. Every club, campaign, and module is shaped by students — no middleman, and no lectures from adults who don’t quite get it.',
+      p: "We’re the audience these platforms are built to keep scrolling, so we know what actually lands with our peers. Every club, campaign, and module is shaped by students — no middleman, and no lectures from adults who don’t quite get it.",
       cut: 'Fig. 02 — Students leading a session.',
       cta: 'See our programs', href: 'initiatives.html',
     },

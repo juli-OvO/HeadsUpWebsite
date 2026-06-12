@@ -67,8 +67,8 @@ function ImpactStats() {
 /* ---------- 2 · TESTIMONIALS ---------- */
 function Testimonials() {
   const notes = [
-    { q: 'Our advisor never lectured us about screens. We figured it out together, and that’s why it actually stuck.', name: 'Maya R.', role: 'Club lead · Austin, TX', ava: 'MR' },
-    { q: 'I’ve run a lot of wellness programs. This is the first one students asked to keep going after the pilot ended.', name: 'Mr. Delgado', role: 'Faculty advisor · Boston, MA', ava: 'JD' },
+    { q: "Our advisor never lectured us about screens. We figured it out together, and that’s why it actually stuck.", name: ‘Maya R.’, role: ‘Club lead · Austin, TX’, ava: ‘MR’ },
+    { q: "I’ve run a lot of wellness programs. This is the first one students asked to keep going after the pilot ended.", name: ‘Mr. Delgado’, role: ‘Faculty advisor · Boston, MA’, ava: ‘JD’ },
     { q: 'Starting a chapter took one form and a lunch meeting. Two weeks later we had thirty kids showing up.', name: 'Theo K.', role: 'Founder, Lincoln HS chapter', ava: 'TK' },
   ];
   return (
@@ -98,9 +98,9 @@ function Testimonials() {
 /* ---------- 3 · START A CLUB (how it works) ---------- */
 function StartAClub() {
   const steps = [
-    { n: '01', h: 'Apply in 5 minutes', p: 'One short form tells us your school and who’s leading. No fees, no experience needed.' },
-    { n: '02', h: 'Get your starter kit', p: 'Slides, meeting plans, and a real student mentor who’s done it before — all ready to go.' },
-    { n: '03', h: 'Run your first meeting', p: 'Pick a date, post a flyer, and host. We’re on call the whole way through your first month.' },
+    { n: ‘01’, h: ‘Apply in 5 minutes’, p: "One short form tells us your school and who’s leading. No fees, no experience needed." },
+    { n: ‘02’, h: ‘Get your starter kit’, p: "Slides, meeting plans, and a real student mentor who’s done it before — all ready to go." },
+    { n: ‘03’, h: ‘Run your first meeting’, p: "Pick a date, post a flyer, and host. We’re on call the whole way through your first month." },
   ];
   return (
     <section className="section" id="start">
@@ -208,10 +208,10 @@ function Chapters() {
 /* ---------- 5 · FAQ ---------- */
 function FAQ({ items, eyebrow = 'Good questions', title = 'The things students ask first.' }) {
   const fallback = [
-    { q: 'Who can start a Heads Up club?', a: 'Any high school student in the U.S. You don’t need to be a club president or have run anything before — just a willingness to host a first meeting. We pair every new chapter with a student mentor.' },
-    { q: 'Does it cost anything?', a: 'No. Heads Up is a youth-led 501(c)(3). The starter kit, slides, and mentorship are all free. Optional merch and event materials are available at cost.' },
-    { q: 'How much time does it take?', a: 'Most chapters meet once or twice a month. Leading a club runs about an hour or two a week, and the starter kit means you’re never building a meeting from scratch.' },
-    { q: 'Is this anti-technology?', a: 'Not at all. We’re about balance, not bans. The whole point is helping students make intentional choices about their own time — designed by people their own age, with no middleman.' },
+    { q: ‘Who can start a Heads Up club?’, a: "Any high school student in the U.S. You don’t need to be a club president or have run anything before — just a willingness to host a first meeting. We pair every new chapter with a student mentor." },
+    { q: ‘Does it cost anything?’, a: ‘No. Heads Up is a youth-led 501(c)(3). The starter kit, slides, and mentorship are all free. Optional merch and event materials are available at cost.’ },
+    { q: ‘How much time does it take?’, a: "Most chapters meet once or twice a month. Leading a club runs about an hour or two a week, and the starter kit means you’re never building a meeting from scratch." },
+    { q: ‘Is this anti-technology?’, a: "Not at all. We’re about balance, not bans. The whole point is helping students make intentional choices about their own time — designed by people their own age, with no middleman." },
   ];
   const list = items || fallback;
   const [open, setOpen] = useState(0);

@@ -114,8 +114,8 @@ const INITIATIVES_FAQ = [
   { q: "How many people should I have on my club's board?", a: 'Heads Up requires at least 2 board members: a President and a Vice President. You can always add more positions as you see fit.' },
   { q: 'How can I join the national board?', a: 'Navigate to our Team page and fill out the form linked at the bottom.' },
   { q: "I don't have a lot of time — how else can I help?", a: 'Our Ambassador program is very flexible and lets you contribute whenever you have time.' },
-  { q: "I can't think of any activities to do with my club?", a: 'We’ve prepared a toolkit of activities for when you feel stuck. You can also meet with our Communications team to talk through options.' },
-  { q: 'Can my club start its own social media page?', a: 'Yes! As long as you follow Heads Up’s social-media guidelines, you’re welcome to start an account for your school.' },
+  { q: "I can’t think of any activities to do with my club?", a: "We’ve prepared a toolkit of activities for when you feel stuck. You can also meet with our Communications team to talk through options." },
+  { q: ‘Can my club start its own social media page?’, a: "Yes! As long as you follow Heads Up’s social-media guidelines, you’re welcome to start an account for your school." },
   { q: 'What is the time commitment to join the board?', a: 'National-board Directors spend ~2–3 hours/week and Chief Officers ~3–4 hours; general members ~1 hour/week. We lighten the load across all roles during exam season and college apps.' },
 ];
 
