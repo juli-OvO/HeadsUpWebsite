@@ -1,0 +1,6 @@
+{
+  "name": "headsup",
+  "scripts": {
+    "start": "npx serve ."
+  }
+}

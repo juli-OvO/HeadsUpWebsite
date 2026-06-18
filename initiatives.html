@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Heads Up — Youth for youth</title>
+<title>Initiatives — Heads Up</title>
 <link rel="stylesheet" href="colors_and_type.css">
 <link rel="stylesheet" href="site.css">
 <link rel="stylesheet" href="extras.css">
@@ -24,21 +24,17 @@
 <script type="text/babel" src="NavBar.jsx"></script>
 <script type="text/babel" src="Footer.jsx"></script>
 <script type="text/babel" src="MoreSections.jsx"></script>
-<script type="text/babel" src="Home.jsx"></script>
+<script type="text/babel" src="Initiatives.jsx"></script>
 <script type="text/babel">
   function App() {
     return (
       <React.Fragment>
-        <NavBar active="Home" />
+        <NavBar active="Initiatives" />
         <main>
-          <HomeHero />
-          <ImpactStats />
-          <HomeStory />
-          <HomeMission />
-          <Testimonials />
-          <WhatWeDo />
-          <Chapters />
-          <FAQ />
+          <InitiativesHero />
+          <GetInvolved />
+          <OtherProgramming />
+          <FAQ items={INITIATIVES_FAQ} eyebrow="FAQ" title="Frequently asked questions." />
         </main>
         <Footer />
       </React.Fragment>

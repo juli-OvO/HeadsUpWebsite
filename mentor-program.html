@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Heads Up — Youth for youth</title>
+<title>Mentor Program — Heads Up</title>
 <link rel="stylesheet" href="colors_and_type.css">
 <link rel="stylesheet" href="site.css">
 <link rel="stylesheet" href="extras.css">
@@ -24,24 +24,35 @@
 <script type="text/babel" src="NavBar.jsx"></script>
 <script type="text/babel" src="Footer.jsx"></script>
 <script type="text/babel" src="MoreSections.jsx"></script>
-<script type="text/babel" src="Home.jsx"></script>
+<script type="text/babel" src="MentorProgram.jsx"></script>
 <script type="text/babel">
   function App() {
     return (
       <React.Fragment>
-        <NavBar active="Home" />
+        <NavBar active="Mentor Program" />
         <main>
-          <HomeHero />
-          <ImpactStats />
-          <HomeStory />
-          <HomeMission />
-          <Testimonials />
-          <WhatWeDo />
-          <Chapters />
-          <FAQ />
+          <MentorHero />
+          <MentorPrograms />
+          <MentorHow />
+          <YouthBandLite />
         </main>
         <Footer />
       </React.Fragment>
+    );
+  }
+  function YouthBandLite() {
+    return (
+      <section className="youth" id="youth">
+        <div className="wrap">
+          <Reveal>
+            <div className="big">Youth <DrawHL>for</DrawHL> youth.</div>
+            <div className="cta-row">
+              <a href="https://docs.google.com/forms/d/e/1FAIpQLSeHSftLNXLcxp4BUtSXoVrYTd6adX_yMpRDX-qzlA8skXVf9Q/viewform" target="_blank" rel="noopener"><Button variant="primary" size="lg" iconRight="arrowRight">Become a Mentor</Button></a>
+              <a href="https://docs.google.com/forms/d/e/1FAIpQLSczCtDJAXyBj1xmD9Zk4ncYrtLhlI6pE-S9OlwDIcexHCZkQg/viewform" target="_blank" rel="noopener"><Button variant="secondary" size="lg">Become a Mentee</Button></a>
+            </div>
+          </Reveal>
+        </div>
+      </section>
     );
   }
   ReactDOM.createRoot(document.getElementById('root')).render(<App />);
