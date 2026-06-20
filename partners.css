@@ -1,8 +1,8 @@
 /* ============================================================
    Heads Up — Partners page styles
    Layers on colors_and_type.css + site.css + extras.css + pages.css.
-   Modern-editorial: floating logo marquee, divided award rows,
-   sponsor card grid. Cobalt ~70%, moss/cream ~30%.
+   Modern-editorial: gallery marquee · logo wall · collab CTA.
+   Cobalt ~70%, moss/sky accents ~30%.
    ============================================================ */
 
 /* ---------- Hero count chips ---------- */
@@ -14,92 +14,169 @@
 .ptally .chip span { font-family: var(--font-mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-500); }
 
 /* ============================================================
-   FULL-BLEED LOGO MARQUEE — edge to edge, no container.
+   MULTI-ROW SCROLLING GALLERY — 3 parallel rows, no hierarchy.
    ============================================================ */
-.logoband { padding: 30px 0 38px; position: relative; border-top: 1.5px solid var(--divider); border-bottom: 1.5px solid var(--divider); }
+.gallery-band { padding: 30px 0 40px; border-top: 1.5px solid var(--divider); border-bottom: 1.5px solid var(--divider); }
 .logostrip-cap { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 22px; }
 .logostrip-cap .ln { height: 1.5px; width: 46px; background: var(--cobalt-300); }
 .logostrip-cap span { font-family: var(--font-mono); font-weight: 700; font-size: 11.5px; letter-spacing: .14em;
   text-transform: uppercase; color: var(--cobalt-600); }
 
-.marquee-track { position: relative; overflow: hidden; width: 100%;
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent);
-          mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent); }
-.marquee { display: flex; align-items: center; width: max-content; animation: hu-marquee 52s linear infinite; }
-.marquee-track:hover .marquee { animation-play-state: paused; }
+.gallery-rows { display: flex; flex-direction: column; gap: 2px; }
+.gallery-row-track { overflow: hidden; width: 100%;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+          mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); }
+.gallery-row { display: flex; align-items: center; width: max-content; }
+.gallery-row--fwd { animation: hu-marquee 48s linear infinite; }
+.gallery-row--rev { animation: hu-marquee-rev 36s linear infinite; }
+.gallery-row--slow { animation-duration: 66s; }
+.gallery-row-track:hover .gallery-row { animation-play-state: paused; }
 @keyframes hu-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes hu-marquee-rev { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+@media (prefers-reduced-motion: reduce) { .gallery-row { animation: none; } }
 
-.logo-chip { display: inline-flex; align-items: center; gap: 13px; padding: 0 46px; white-space: nowrap;
-  font-family: var(--font-display); font-weight: 800; font-size: 26px; letter-spacing: -.02em; color: var(--ink-400);
+.logo-chip { display: inline-flex; align-items: center; gap: 11px; padding: 0 36px; white-space: nowrap;
+  font-family: var(--font-display); font-weight: 800; font-size: 22px; letter-spacing: -.02em; color: var(--ink-400);
   transition: color .2s ease; }
-.logo-chip .dot { width: 9px; height: 9px; border-radius: 60% 40% 55% 45%; background: var(--ink-200); flex: none; transition: background .2s; }
+.logo-chip .dot { width: 8px; height: 8px; border-radius: 60% 40% 55% 45%; background: var(--ink-200); flex: none; transition: background .2s; }
 .logo-chip:hover { color: var(--cobalt-600); }
 .logo-chip:hover .dot { background: var(--cobalt-400); }
-@media (prefers-reduced-motion: reduce) { .marquee { animation: none; } }
 
 /* ============================================================
-   RECOGNITION — grants, awards & finalist nods (divided rows)
+   LOGO WALL — left sticky grid · right description list
    ============================================================ */
-.awards { border-top: 1.5px solid var(--ink-900); margin-top: 6px; }
-.award-row { display: grid; grid-template-columns: 52px 1.05fr 1.25fr; gap: 30px; align-items: start;
-  padding: 30px 6px; border-bottom: 1.5px solid var(--divider); transition: background .2s ease; }
-.award-row:hover { background: var(--cobalt-50); }
-.award-row .anum { font-family: var(--font-mono); font-weight: 700; font-size: 13px; letter-spacing: .04em;
-  color: var(--cobalt-400); padding-top: 8px; }
-.award-row:nth-child(even) .anum { color: var(--moss); }
-.award-name { font-family: var(--font-display); font-weight: 800; font-size: clamp(1.4rem, 2.3vw, 1.95rem);
-  letter-spacing: -.02em; line-height: 1.05; color: var(--ink-900); margin: 0; }
-.award-tag { display: inline-flex; align-items: center; gap: 8px; margin-top: 12px;
-  font-family: var(--font-mono); font-weight: 700; font-size: 11px; letter-spacing: .07em; text-transform: uppercase;
-  color: var(--cobalt-700); background: var(--cobalt-50); border: 1.5px solid var(--cobalt-200);
-  padding: 6px 12px; border-radius: 999px; }
-.award-row:nth-child(even) .award-tag { color: var(--moss-700); background: var(--moss-50); border-color: var(--moss-300); }
-.award-tag .ic { font-size: 13px; }
-.award-desc { font-size: 16.5px; line-height: 1.6; color: var(--ink-700); margin: 4px 0 0; max-width: 46ch; }
+.lw-section { border-top: 1.5px solid var(--divider); }
+
+.lw-layout { display: grid; grid-template-columns: 1fr 1.15fr; gap: 64px; margin-top: 52px; align-items: start; }
+
+/* Left column — sticky logo grid */
+.lw-grid-col { position: sticky; top: 96px; }
+.lw-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+
+.lw-tile {
+  aspect-ratio: 3 / 2;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 7px; padding: 12px 8px;
+  border: 1.5px solid var(--divider);
+  border-radius: var(--r-sm);
+  background: var(--ink-50);
+  transition: border-color .18s ease, transform .18s ease, box-shadow .18s ease;
+  cursor: default; overflow: hidden;
+}
+.lw-tile:hover {
+  border-color: var(--cobalt-300);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-sm);
+}
+
+/* cycle through four tones */
+.lw-tile:nth-child(4n+1) { background: var(--cobalt-50); }
+.lw-tile:nth-child(4n+1) .lw-initials { color: var(--cobalt-600); }
+.lw-tile:nth-child(4n+2) { background: var(--moss-50); }
+.lw-tile:nth-child(4n+2) .lw-initials { color: var(--moss-700); }
+.lw-tile:nth-child(4n+3) { background: var(--sky-50); }
+.lw-tile:nth-child(4n+3) .lw-initials { color: var(--sky-400); }
+.lw-tile:nth-child(4n)   { background: var(--ink-100); }
+.lw-tile:nth-child(4n)   .lw-initials { color: var(--ink-600); }
+
+/* Active (hovered) tile highlight — matches each tile's tone */
+.lw-tile--active { border-width: 2px; transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.lw-tile:nth-child(4n+1).lw-tile--active { border-color: var(--cobalt-500); }
+.lw-tile:nth-child(4n+2).lw-tile--active { border-color: var(--moss-700); }
+.lw-tile:nth-child(4n+3).lw-tile--active { border-color: var(--sky-400); }
+.lw-tile:nth-child(4n).lw-tile--active   { border-color: var(--ink-600); }
+
+.lw-initials {
+  font-family: var(--font-display); font-weight: 800;
+  font-size: clamp(1.1rem, 2vw, 1.55rem);
+  letter-spacing: -.02em; line-height: 1;
+}
+.lw-tile-name {
+  font-family: var(--font-mono); font-size: 8.5px;
+  letter-spacing: .05em; text-transform: uppercase;
+  color: var(--ink-400); text-align: center; line-height: 1.35;
+}
+
+/* Right column — hover-triggered detail panel */
+.lw-detail {
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 48px 0;
+  animation: lw-fadein .22s ease forwards;
+}
+@keyframes lw-fadein {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.lw-detail-num {
+  font-family: var(--font-mono); font-weight: 700; font-size: 13px;
+  letter-spacing: .08em; color: var(--cobalt-400); margin-bottom: 16px;
+}
+.lw-detail-name {
+  font-family: var(--font-display); font-weight: 800;
+  font-size: clamp(2rem, 3.8vw, 3.4rem);
+  letter-spacing: -.025em; line-height: 1.02;
+  color: var(--ink-900); margin: 0 0 18px;
+}
+.lw-detail-role {
+  display: inline-block;
+  font-family: var(--font-mono); font-weight: 700; font-size: 11px;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--cobalt-600);
+  background: var(--cobalt-50); border: 1.5px solid var(--cobalt-200);
+  padding: 6px 14px; border-radius: 999px; margin-bottom: 24px;
+}
+.lw-detail-desc {
+  font-size: 18px; line-height: 1.7; color: var(--ink-600); max-width: 42ch;
+}
 
 /* ============================================================
-   SPONSORS — corporate partner cards (modern, thin-border)
-   ============================================================ */
-.sponsor-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
-.sponsor { display: flex; flex-direction: column; gap: 10px; padding: 24px 24px 22px 0;
-  border-top: 1.5px solid var(--ink-900); transition: padding-left .2s ease; }
-.sponsor:hover { padding-left: 12px; }
-.sponsor-mark { font-family: var(--font-display); font-weight: 800; font-size: 21px; letter-spacing: -.02em;
-  color: var(--ink-900); line-height: 1; }
-.sponsor-kind { display: inline-flex; align-items: center; gap: 7px; font-family: var(--font-mono); font-weight: 700;
-  font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--cobalt-600); }
-.sponsor:nth-child(3n+2) .sponsor-kind { color: var(--moss-700); }
-.sponsor:nth-child(3n+3) .sponsor-kind { color: var(--sky-400); }
-.sponsor-kind .sw { width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
-.sponsor p { font-size: 14.5px; line-height: 1.58; color: var(--ink-600); margin: 0; }
-
-/* ============================================================
-   PARTNER-WITH-US CTA (open / editorial, sits on page bg)
+   PARTNER-WITH-US CTA
    ============================================================ */
 .partner-open { border-top: 1.5px solid var(--ink-900); padding-top: 30px; }
 .partner-open-head { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 26px; }
 .partner-open-head .hand { font-family: var(--font-hand); font-weight: 600; font-size: 20px; color: var(--cobalt-500); }
-.partner-open-grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 40px clamp(36px, 6vw, 88px); align-items: end; }
-.partner-open-grid h2 { font-family: var(--font-display); font-weight: 800; font-size: clamp(2rem, 4vw, 3.3rem);
-  letter-spacing: -.025em; line-height: 1.02; color: var(--ink-900); margin: 0; }
-.partner-open-side p { font-size: 17px; line-height: 1.62; color: var(--ink-600); margin: 0 0 24px; max-width: 42ch; }
+
+.collab-intro { margin: 0 0 32px; }
+.collab-intro h2 { font-family: var(--font-display); font-weight: 800; font-size: clamp(1.9rem, 3.6vw, 3rem);
+  letter-spacing: -.025em; line-height: 1.05; color: var(--ink-900); margin: 0 0 12px; }
+.collab-intro .sub { font-size: 17px; line-height: 1.62; color: var(--ink-600); max-width: 58ch; margin: 0; }
+
+.collab-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.collab-card { border-top: 2px solid var(--ink-900); padding: 24px 0 0; display: flex; flex-direction: column; gap: 12px; }
+.collab-icon { font-family: var(--font-display); font-weight: 800; font-size: 26px; color: var(--cobalt-600);
+  line-height: 1; margin-bottom: 2px; }
+.collab-card:nth-child(2) .collab-icon { color: var(--moss-700); }
+.collab-card:nth-child(3) .collab-icon { color: var(--sky-400); }
+.collab-title { font-family: var(--font-display); font-weight: 800; font-size: 1.3rem; letter-spacing: -.02em;
+  color: var(--ink-900); margin: 0; }
+.collab-desc { font-size: 15px; line-height: 1.62; color: var(--ink-600); margin: 0; }
+.collab-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 7px; }
+.collab-list li { font-family: var(--font-mono); font-size: 11.5px; letter-spacing: .04em; color: var(--ink-700);
+  padding-left: 18px; position: relative; }
+.collab-list li::before { content: '—'; position: absolute; left: 0; color: var(--cobalt-400); }
+.collab-card:nth-child(2) .collab-list li::before { color: var(--moss); }
+.collab-card:nth-child(3) .collab-list li::before { color: var(--sky-400); }
+
 .partner-open-actions { display: flex; align-items: center; gap: 22px; flex-wrap: wrap; }
 .ghost-link { font-family: var(--font-hand); font-weight: 600; font-size: 19px; color: var(--ink-500);
   text-decoration: none; transition: color .18s ease; }
 .ghost-link:hover { color: var(--cobalt-600); }
 
 /* ============================================================
-   responsive
+   Responsive
    ============================================================ */
-@media (max-width: 940px) {
-  .sponsor-grid { grid-template-columns: 1fr 1fr; }
-  .partner-open-grid { grid-template-columns: 1fr; gap: 26px; align-items: start; }
+@media (max-width: 960px) {
+  .lw-layout { grid-template-columns: 1fr; gap: 36px; }
+  .lw-grid-col { position: static; }
+  .lw-grid { grid-template-columns: repeat(4, 1fr); }
+  .lw-detail { padding: 32px 0 0; }
+  .collab-grid { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 720px) {
-  .award-row { grid-template-columns: 40px 1fr; gap: 14px 18px; }
-  .award-row .award-desc { grid-column: 2; }
-  .logo-chip { padding: 0 30px; font-size: 21px; }
+  .logo-chip { padding: 0 24px; font-size: 19px; }
+  .lw-grid { grid-template-columns: repeat(3, 1fr); }
 }
-@media (max-width: 540px) {
-  .sponsor-grid { grid-template-columns: 1fr; }
+@media (max-width: 480px) {
+  .lw-grid { grid-template-columns: repeat(3, 1fr); }
+  .collab-grid { grid-template-columns: 1fr; }
 }

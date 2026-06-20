@@ -1,47 +1,64 @@
 /* Heads Up — Partners page sections.
-   Content from headsupclubs.org/partners. Modern-editorial:
-   floating logo marquee · divided recognition rows · sponsor cards.
+   Modern-editorial: gallery marquee · logo wall · collab CTA.
    Cobalt-dominant, moss/sky accents. */
 
-/* All partner names — drives the floating marquee strip. */
+/* All partner names — drives the scrolling gallery. */
 const PARTNER_LOGOS = [
   'Taco Bell Foundation', "Hershey's", 'T-Mobile Foundation', 'Power of Youth',
   'Ashoka', 'Lookup', 'Hopelab', 'Starbucks', 'MOD Pizza', 'Holiday Inn',
   "Dunkin'", 'Kendra Scott', 'Just Gametime',
 ];
 
-/* Grants, awards & finalist recognitions. */
-const RECOGNITION = [
-  { name: 'Taco Bell Foundation', tag: 'Ambition Accelerator Program', icon: 'sparkles',
+/* Combined partner data — logo wall + description list. */
+const ALL_PARTNERS = [
+  { name: 'Taco Bell Foundation', initials: 'TB', role: 'Ambition Accelerator Program',
     desc: 'Awarded funding to scale youth-driven projects focused on leadership, innovation, and real-world impact.' },
-  { name: "Hershey's", tag: 'Heartwarming Grant Recipient', icon: 'heart',
+  { name: "Hershey's", initials: 'H', role: 'Heartwarming Grant Recipient',
     desc: 'Grant support for community-based programs centered on kindness, service, and positive youth development.' },
-  { name: 'T-Mobile Foundation', tag: 'Changemaker Challenge Finalist', icon: 'sparkles',
+  { name: 'T-Mobile Foundation', initials: 'TM', role: 'Changemaker Challenge Finalist',
     desc: 'Recognized as a top finalist for meaningful social impact through youth-led innovation and digital inclusion.' },
-  { name: 'Power of Youth', tag: 'Community Grant Recipient', icon: 'users',
+  { name: 'Power of Youth', initials: 'PY', role: 'Community Grant Recipient',
     desc: 'Funded initiatives that empower young people to lead local projects and create measurable community change.' },
-  { name: 'Ashoka', tag: 'Changemaker Finalist', icon: 'sparkles',
+  { name: 'Ashoka', initials: 'A', role: 'Changemaker Finalist',
     desc: 'Selected among top social-impact leaders for advancing youth entrepreneurship and long-term systems change.' },
-  { name: 'Lookup', tag: 'Innovation Challenge Finalist', icon: 'search',
+  { name: 'Lookup', initials: 'LK', role: 'Innovation Challenge Finalist',
     desc: 'Finalist for designing creative solutions that blend technology, service, and youth empowerment.' },
-  { name: 'Hopelab', tag: 'National Contribution Project Award', icon: 'heart',
+  { name: 'Hopelab', initials: 'HL', role: 'National Contribution Project Award',
     desc: 'Recognized for building programs that support youth mental health, wellbeing, and resilience nationwide.' },
+  { name: 'Starbucks', initials: 'SB', role: 'Partner · Sponsor',
+    desc: 'Corporate partner providing funding, resources, and community support to expand youth-focused initiatives.' },
+  { name: 'MOD Pizza', initials: 'MP', role: 'Partner · Sponsor',
+    desc: 'Provided sponsorship and logistical support to help scale our programming and outreach efforts.' },
+  { name: 'Holiday Inn', initials: 'HI', role: 'Partner · Sponsor',
+    desc: 'Supported events, fundraising efforts, and community-engagement initiatives across chapters.' },
+  { name: "Dunkin'", initials: 'DK', role: 'Partner · Sponsor',
+    desc: 'Contributed sponsorship and product support for events and youth programs.' },
+  { name: 'Kendra Scott', initials: 'KS', role: 'Partner · Sponsor',
+    desc: 'Partnered through fundraising collaborations and community-driven campaigns.' },
+  { name: 'Just Gametime', initials: 'JG', role: 'Strategic Partner',
+    desc: 'Supporting youth engagement, outreach, and program expansion through sports and media platforms.' },
 ];
 
-/* Corporate partners & sponsors. */
-const SPONSORS = [
-  { name: 'Starbucks', kind: 'Partner · Sponsor',
-    desc: 'Corporate partner providing funding, resources, and community support to expand youth-focused initiatives.' },
-  { name: 'MOD Pizza', kind: 'Partner · Sponsor',
-    desc: 'Provided sponsorship and logistical support to help scale our programming and outreach efforts.' },
-  { name: 'Holiday Inn', kind: 'Partner · Sponsor',
-    desc: 'Supported events, fundraising efforts, and community-engagement initiatives across chapters.' },
-  { name: "Dunkin'", kind: 'Partner · Sponsor',
-    desc: 'Contributed sponsorship and product support for events and youth programs.' },
-  { name: 'Kendra Scott', kind: 'Partner · Sponsor',
-    desc: 'Partnered through fundraising collaborations and community-driven campaigns.' },
-  { name: 'Just Gametime', kind: 'Strategic Partner',
-    desc: 'Supporting youth engagement, outreach, and program expansion through sports and media platforms.' },
+/* Three collaboration pathways shown in PartnerCTA. */
+const COLLAB_WAYS = [
+  {
+    icon: '$',
+    title: 'Fund a Chapter',
+    desc: 'Sponsor the launch of a Heads Up chapter at a school in your community — fully named, fully funded, fully reported.',
+    bullets: ['Naming rights at the chapter', 'Quarterly impact reports', 'Tax-deductible (501c3 · EIN 99-1479158)'],
+  },
+  {
+    icon: '★',
+    title: 'Co-Brand a Campaign',
+    desc: 'Lend your brand to a Heads Up campaign — screen-time competitions, awareness drives, or learning modules co-released with your name.',
+    bullets: ['Co-branded merch & assets', 'Joint social presence', 'Direct line to Gen Z, on their terms'],
+  },
+  {
+    icon: '↗',
+    title: 'Provide a Resource',
+    desc: 'Give us the thing only you can — distribution, venue space, prize stock, technology, professional expertise, or platform reach.',
+    bullets: ['Goods & services partnerships', 'Venue or platform access', 'Professional services (pro-bono)'],
+  },
 ];
 
 /* ---------- Hero ---------- */
@@ -65,79 +82,77 @@ function PartnersHero() {
   );
 }
 
-/* ---------- Full-bleed logo marquee (edge to edge, no card) ---------- */
-function LogoStrip() {
-  const row = PARTNER_LOGOS.concat(PARTNER_LOGOS); // duplicate for seamless loop
+/* ---------- Multi-row auto-scrolling gallery ---------- */
+function LogoGallery() {
+  const fwd = [...PARTNER_LOGOS, ...PARTNER_LOGOS];
+  const rev = [...PARTNER_LOGOS].reverse().concat([...PARTNER_LOGOS].reverse());
+  const rows = [
+    { items: fwd, cls: 'gallery-row--fwd' },
+    { items: rev, cls: 'gallery-row--rev' },
+    { items: fwd, cls: 'gallery-row--fwd gallery-row--slow' },
+  ];
   return (
-    <section className="logoband" aria-label="Partners">
+    <section className="gallery-band" aria-label="Partners">
       <div className="logostrip-cap">
         <span className="ln" />
         <span>Trusted &amp; supported by</span>
         <span className="ln" />
       </div>
-      <div className="marquee-track">
-        <div className="marquee" aria-hidden="false">
-          {row.map((name, i) => (
-            <span className="logo-chip" key={i}><span className="dot" />{name}</span>
-          ))}
+      <div className="gallery-rows">
+        {rows.map(({ items, cls }, ri) => (
+          <div className="gallery-row-track" key={ri}>
+            <div className={`gallery-row ${cls}`}>
+              {items.map((name, i) => (
+                <span className="logo-chip" key={i}><span className="dot" />{name}</span>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+/* ---------- Logo wall + hover-triggered detail ---------- */
+function LogoWall() {
+  const [active, setActive] = React.useState(0);
+  const p = ALL_PARTNERS[active];
+  return (
+    <section className="section lw-section" id="recognition">
+      <div className="wrap">
+        <Reveal className="sec-head">
+          <div className="row"><Sticker tone="cobalt" tilt="tilt-r" icon="sparkles">Partners &amp; recognition</Sticker></div>
+          <h2>Every organization behind the mission.</h2>
+        </Reveal>
+        <div className="lw-layout">
+          <div className="lw-grid-col">
+            <div className="lw-grid">
+              {ALL_PARTNERS.map((partner, i) => (
+                <div
+                  className={`lw-tile${active === i ? ' lw-tile--active' : ''}`}
+                  key={partner.name}
+                  onMouseEnter={() => setActive(i)}
+                  onClick={() => setActive(i)}
+                >
+                  <span className="lw-initials">{partner.initials}</span>
+                  <span className="lw-tile-name">{partner.name}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="lw-detail" key={active}>
+            <div className="lw-detail-num">{String(active + 1).padStart(2, '0')}</div>
+            <h3 className="lw-detail-name">{p.name}</h3>
+            <span className="lw-detail-role">{p.role}</span>
+            <p className="lw-detail-desc">{p.desc}</p>
+          </div>
         </div>
       </div>
     </section>
   );
 }
 
-/* ---------- Recognition (grants / awards / finalists) ---------- */
-function Recognition() {
-  return (
-    <section className="section" id="recognition" style={{ paddingBottom: 56 }}>
-      <div className="wrap">
-        <Reveal className="sec-head">
-          <div className="row"><Sticker tone="cobalt" tilt="tilt-r" icon="sparkles">Grants &amp; recognition</Sticker></div>
-          <h2>Backed by foundations that fund the future.</h2>
-          <p className="sub">National grants, accelerators, and changemaker awards that have invested in Heads Up and recognized youth-led impact.</p>
-        </Reveal>
-        <Cascade className="awards" step={70}>
-          {RECOGNITION.map((r, i) => (
-            <div className="award-row" key={r.name}>
-              <div className="anum">{String(i + 1).padStart(2, '0')}</div>
-              <div>
-                <h3 className="award-name">{r.name}</h3>
-                <span className="award-tag"><Icon name={r.icon} size={13} />{r.tag}</span>
-              </div>
-              <p className="award-desc">{r.desc}</p>
-            </div>
-          ))}
-        </Cascade>
-      </div>
-    </section>
-  );
-}
-
-/* ---------- Sponsors (corporate partners) ---------- */
-function Sponsors() {
-  return (
-    <section className="section" id="sponsors" style={{ paddingTop: 36, borderTop: '1.5px solid var(--divider)' }}>
-      <div className="wrap">
-        <Reveal className="sec-head">
-          <div className="row"><Sticker tone="moss" tilt="tilt-l2" icon="users">Partners &amp; sponsors</Sticker></div>
-          <h2>Brands that show up for our students.</h2>
-          <p className="sub">Companies providing funding, product, and on-the-ground support for events, fundraisers, and programming.</p>
-        </Reveal>
-        <Cascade className="sponsor-grid" step={80}>
-          {SPONSORS.map((s) => (
-            <div className="sponsor" key={s.name}>
-              <div className="sponsor-mark">{s.name}</div>
-              <div className="sponsor-kind"><span className="sw" />{s.kind}</div>
-              <p>{s.desc}</p>
-            </div>
-          ))}
-        </Cascade>
-      </div>
-    </section>
-  );
-}
-
-/* ---------- Partner-with-us CTA (open / editorial) ---------- */
+/* ---------- Partner-with-us CTA (Three ways to collaborate) ---------- */
 function PartnerCTA() {
   return (
     <section className="section" id="partner" style={{ paddingTop: 8 }}>
@@ -148,17 +163,27 @@ function PartnerCTA() {
               <Sticker tone="cobalt" tilt="tilt-l" icon="heart">Become a partner</Sticker>
               <span className="hand">there's room for you here</span>
             </div>
-            <div className="partner-open-grid">
-              <h2>Want to back the next<br />generation of <DrawHL>digital balance?</DrawHL></h2>
-              <div className="partner-open-side">
-                <p>Foundations, brands, and local partners help us reach more students every semester — every dollar and resource goes straight back into youth-led programming.</p>
-                <div className="partner-open-actions">
-                  <a href="https://www.headsupclubs.org/donate" target="_blank" rel="noopener">
-                    <Button variant="primary" size="lg" iconRight="arrowRight">Partner with us</Button>
-                  </a>
-                  <a className="ghost-link" href="https://www.headsupclubs.org/donate" target="_blank" rel="noopener">…or just say hello</a>
+            <div className="collab-intro">
+              <h2>Three ways to collaborate.</h2>
+              <p className="sub">We work with foundations, brands, and educators. If any of these fit your organization, the form below routes straight to our partnership lead.</p>
+            </div>
+            <div className="collab-grid">
+              {COLLAB_WAYS.map((w) => (
+                <div className="collab-card" key={w.title}>
+                  <div className="collab-icon">{w.icon}</div>
+                  <h3 className="collab-title">{w.title}</h3>
+                  <p className="collab-desc">{w.desc}</p>
+                  <ul className="collab-list">
+                    {w.bullets.map((b) => <li key={b}>{b}</li>)}
+                  </ul>
                 </div>
-              </div>
+              ))}
+            </div>
+            <div className="partner-open-actions" style={{ marginTop: 36 }}>
+              <a href="https://www.headsupclubs.org/donate" target="_blank" rel="noopener">
+                <Button variant="primary" size="lg" iconRight="arrowRight">Partner with us</Button>
+              </a>
+              <a className="ghost-link" href="https://www.headsupclubs.org/donate" target="_blank" rel="noopener">…or just say hello</a>
             </div>
           </div>
         </Reveal>
@@ -167,4 +192,4 @@ function PartnerCTA() {
   );
 }
 
-Object.assign(window, { PartnersHero, LogoStrip, Recognition, Sponsors, PartnerCTA });
+Object.assign(window, { PartnersHero, LogoGallery, LogoWall, PartnerCTA });
