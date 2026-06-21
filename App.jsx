@@ -4,10 +4,11 @@ function App() {
     <React.Fragment>
       <NavBar />
       <main>
-        <Hero />
-        <FirstClub />
         <Mission />
-        <YouthBand />
+        <FirstClub />
+        <Chapters />
+        <Testimonials />
+        <WhatWeDo />
       </main>
       <Footer />
     </React.Fragment>

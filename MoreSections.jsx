@@ -207,7 +207,75 @@ function Chapters() {
   );
 }
 
-/* ---------- 5 · FAQ ---------- */
+/* ---------- 5 · SCREEN-TIME RECLAIM SLIDER ---------- */
+const SLIDER_TICKS = [
+  { label: '2 hrs',  pct: 0 },
+  { label: '7 hrs',  pct: ((7  - 2) / 19 * 100).toFixed(1) },
+  { label: '12 hrs', pct: ((12 - 2) / 19 * 100).toFixed(1) },
+  { label: '21 hrs', pct: 100 },
+];
+
+function ScreenTimeSlider() {
+  const [hours, setHours] = useState(12);
+  const reclaimed = hours * 0.25;
+  const weeklyHrs = (reclaimed * 7).toFixed(1);
+  const yearDays  = Math.round(reclaimed * 365 / 24);
+  const books     = Math.round(reclaimed * 365 / 6);
+  const fillPct   = `${((hours - 2) / 19 * 100).toFixed(1)}%`;
+
+  return (
+    <section className="section sts-section" id="reclaim">
+      <div className="wrap">
+        <Reveal className="sec-head left">
+          <div className="row"><Sticker tone="cobalt" tilt="tilt-r" icon="clock">Screen time</Sticker></div>
+          <h2>What could you reclaim?</h2>
+          <p className="sub">Move the slider to your daily screen time. We'll show you what cutting back just 25% gives back to you — time, focus, life.</p>
+        </Reveal>
+        <div className="sts-panel">
+          <div className="sts-left">
+            <div className="sts-slider-head">
+              <span className="sts-label">Your daily screen time</span>
+              <span className="sts-value">{hours}<span className="sts-unit">hrs&thinsp;/&thinsp;day</span></span>
+            </div>
+            <div className="sts-track-wrap">
+              <input
+                type="range" min={2} max={21} value={hours} step={1}
+                className="sts-slider"
+                style={{ '--pct': fillPct }}
+                onChange={e => setHours(Number(e.target.value))}
+                aria-label="Daily screen time in hours"
+              />
+              <div className="sts-ticks" aria-hidden="true">
+                {SLIDER_TICKS.map(t => (
+                  <span key={t.label} style={{ left: `${t.pct}%` }}>{t.label}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+          <div className="sts-right">
+            <div className="sts-stats">
+              <div className="sts-stat">
+                <span className="sts-num">{weeklyHrs}</span>
+                <span className="sts-stat-label">hours reclaimed each week</span>
+              </div>
+              <div className="sts-stat">
+                <span className="sts-num">{yearDays}</span>
+                <span className="sts-stat-label">full days each year</span>
+              </div>
+              <div className="sts-stat">
+                <span className="sts-num">{books}</span>
+                <span className="sts-stat-label">books you could finish</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p className="sts-note">Assumes a modest 25% reduction. Imagine what your school chapter could do with that, together.</p>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- 6 · FAQ ---------- */
 function FAQ({ items, eyebrow = 'Good questions', title = 'The things students ask first.' }) {
   const fallback = [
     { q: 'Who can start a Heads Up club?', a: "Any high school student in the U.S. You don't need to be a club president or have run anything before — just a willingness to host a first meeting. We pair every new chapter with a student mentor." },
@@ -239,4 +307,4 @@ function FAQ({ items, eyebrow = 'Good questions', title = 'The things students a
   );
 }
 
-Object.assign(window, { CountUp, ImpactStats, Testimonials, StartAClub, Chapters, FAQ });
+Object.assign(window, { CountUp, ImpactStats, Testimonials, StartAClub, Chapters, ScreenTimeSlider, FAQ });

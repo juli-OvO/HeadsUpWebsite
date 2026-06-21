@@ -1,0 +1,277 @@
+/* ============================================================
+   Heads Up — Initiatives page styles
+   Layers on colors_and_type.css + site.css + extras.css + pages.css.
+   ============================================================ */
+
+/* ============================================================
+   SCREEN-TIME SLIDER — interactive reclaim calculator
+   ============================================================ */
+
+/* Tighten section padding so everything fits one viewport */
+.sts-section {
+  border-top: 1.5px solid var(--divider);
+  padding: 60px 0;
+}
+.sts-section .sec-head { margin-bottom: 28px; }
+
+/* Two-column panel: slider left, stacked stats right */
+.sts-panel {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(48px, 7vw, 96px);
+  align-items: center;
+}
+
+/* ---------- Slider control — no card ---------- */
+.sts-slider-head {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 28px;
+}
+.sts-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--cobalt-600);
+  font-weight: 700;
+}
+.sts-value {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2.6rem, 4.5vw, 3.6rem);
+  letter-spacing: -.03em;
+  line-height: 1;
+  color: var(--ink-900);
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+.sts-unit {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: clamp(12px, 1.4vw, 14px);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--cobalt-500);
+}
+
+/* Track wrapper */
+.sts-track-wrap { position: relative; padding-bottom: 28px; }
+
+/* Range input — fully custom */
+.sts-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 5px;
+  border-radius: 3px;
+  border: 0;
+  outline: none;
+  cursor: pointer;
+  background: linear-gradient(
+    to right,
+    var(--cobalt-500) 0%,
+    var(--cobalt-500) var(--pct, 53%),
+    var(--ink-200)    var(--pct, 53%),
+    var(--ink-200)    100%
+  );
+}
+.sts-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background: var(--cobalt-500);
+  border: 3.5px solid #fff;
+  box-shadow: 0 0 0 2.5px var(--cobalt-500), var(--shadow-md);
+  cursor: grab;
+  transition: transform .1s ease, box-shadow .1s ease;
+}
+.sts-slider:active::-webkit-slider-thumb {
+  transform: scale(1.18);
+  cursor: grabbing;
+  box-shadow: 0 0 0 4px var(--cobalt-200), var(--shadow-md);
+}
+.sts-slider::-moz-range-thumb {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background: var(--cobalt-500);
+  border: 3.5px solid #fff;
+  box-shadow: 0 0 0 2.5px var(--cobalt-500);
+  cursor: grab;
+}
+.sts-slider::-moz-range-progress { background: var(--cobalt-500); height: 5px; border-radius: 3px; }
+.sts-slider::-moz-range-track    { background: var(--ink-200);    height: 5px; border-radius: 3px; }
+
+/* Tick marks */
+.sts-ticks {
+  position: absolute;
+  top: calc(5px + 14px);
+  left: 0; right: 0;
+  height: 18px;
+}
+.sts-ticks span {
+  position: absolute;
+  transform: translateX(-50%);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: .04em;
+  color: var(--ink-400);
+  white-space: nowrap;
+}
+.sts-ticks span:first-child { transform: none; }
+.sts-ticks span:last-child  { transform: translateX(-100%); }
+
+/* ---------- Right — numbers stacked vertically ---------- */
+.sts-stats {
+  display: flex;
+  flex-direction: column;
+  border-top: 1.5px solid var(--ink-900);
+}
+
+/* Each stat: own row, just a very light separator, no side borders */
+.sts-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--divider);
+}
+.sts-stat:last-child { border-bottom: none; }
+
+.sts-num {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2.8rem, 5vw, 4.2rem);
+  letter-spacing: -.035em;
+  line-height: .95;
+  color: var(--cobalt-600);
+}
+.sts-stat:nth-child(2) .sts-num { color: var(--moss-700); }
+.sts-stat:nth-child(3) .sts-num { color: var(--sky-400); }
+
+.sts-stat-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ink-500);
+  line-height: 1.4;
+}
+
+/* Note sits below the full-width panel */
+.sts-note {
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--ink-400);
+  font-style: italic;
+  margin: 20px 0 0;
+}
+
+/* ============================================================
+   TIME COMMITMENT — 3-col role grid + 2-col Q&A block
+   ============================================================ */
+.tc-section { border-top: 1.5px solid var(--divider); }
+
+/* Three role columns — divider-led, matching .feature-grid rhythm */
+.tc-roles {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin-top: 12px;
+}
+
+.tc-role {
+  padding: 6px 40px;
+  border-left: 1.5px solid var(--divider);
+  display: flex; flex-direction: column; gap: 16px;
+}
+.tc-role:first-child { border-left: 0; padding-left: 0; }
+.tc-role:last-child  { padding-right: 0; }
+
+/* Big time stat */
+.tc-time { display: flex; align-items: baseline; gap: 8px; }
+.tc-hrs {
+  font-family: var(--font-display); font-weight: 800;
+  font-size: clamp(2.4rem, 3.8vw, 3.4rem);
+  letter-spacing: -.03em; line-height: 1;
+  color: var(--cobalt-600);
+}
+.tc-role:nth-child(2) .tc-hrs { color: var(--moss-700); }
+.tc-role:nth-child(3) .tc-hrs { color: var(--sky-400); }
+.tc-unit {
+  font-family: var(--font-mono); font-weight: 700;
+  font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--ink-400); white-space: nowrap;
+}
+
+/* Role label */
+.tc-role-label { display: flex; flex-direction: column; gap: 3px; }
+.tc-name {
+  font-family: var(--font-display); font-weight: 800;
+  font-size: 1.15rem; letter-spacing: -.01em; color: var(--ink-900);
+  line-height: 1.1;
+}
+.tc-sub {
+  font-family: var(--font-mono); font-size: 10px;
+  letter-spacing: .08em; text-transform: uppercase; color: var(--ink-400);
+}
+
+.tc-desc {
+  font-size: 15.5px; line-height: 1.62; color: var(--ink-600);
+  margin: 0;
+}
+
+/* Two Q&A blocks side by side */
+.tc-qas {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+}
+
+.tc-qa {
+  padding: 6px 40px;
+  border-left: 1.5px solid var(--divider);
+  display: flex; flex-direction: column; gap: 12px;
+}
+.tc-qa:first-child { border-left: 0; padding-left: 0; }
+.tc-qa:last-child  { padding-right: 0; }
+
+.tc-q {
+  font-family: var(--font-display); font-weight: 800;
+  font-size: clamp(1.15rem, 1.8vw, 1.45rem);
+  letter-spacing: -.01em; color: var(--ink-900); margin: 0;
+  line-height: 1.15;
+}
+.tc-a {
+  font-size: 16px; line-height: 1.65; color: var(--ink-600); margin: 0;
+}
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+@media (max-width: 820px) {
+  /* slider — stack below each other on mobile */
+  .sts-panel { grid-template-columns: 1fr; gap: 36px; }
+  .sts-section { padding: 52px 0; }
+
+  /* time commitment */
+  .tc-roles { grid-template-columns: 1fr; }
+  .tc-role {
+    border-left: 0; padding: 0;
+    border-top: 1.5px solid var(--divider); padding-top: 28px; margin-top: 28px;
+  }
+  .tc-role:first-child { border-top: 0; padding-top: 0; margin-top: 0; }
+}
+@media (max-width: 640px) {
+  /* time commitment QAs */
+  .tc-qas { grid-template-columns: 1fr; }
+  .tc-qa {
+    border-left: 0; padding: 0;
+    border-top: 1.5px solid var(--divider); padding-top: 24px; margin-top: 24px;
+  }
+  .tc-qa:first-child { border-top: 0; padding-top: 0; margin-top: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sts-slider::-webkit-slider-thumb { transition: none; }
+}

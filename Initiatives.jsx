@@ -110,6 +110,61 @@ function OtherProgramming() {
   );
 }
 
+/* ---------- Time commitment ---------- */
+const ROLES = [
+  { label: 'General member', time: '~1 hr',
+    desc: 'Show up, share modules, help run the occasional event. The easiest way to be part of a chapter without leading it.' },
+  { label: 'Director', sub: 'national board', time: '~2–3 hrs',
+    desc: 'You own a slice of the national operation and keep it moving alongside your own chapter work.' },
+  { label: 'Chief Officer', sub: 'national board', time: '~3–4 hrs',
+    desc: 'The deepest commitment: you help steer the whole organization and support chapters across the country.' },
+];
+
+const TIME_QAS = [
+  { q: "What's the minimum to start a club?",
+    a: "Just two people — a President and a Vice President. Recruit your wider board and general members once you're up and running." },
+  { q: "What about exams and college apps?",
+    a: "We scale the workload down during exam seasons and college-application season. School comes first — always. Heads Up flexes around your year, not the other way round." },
+];
+
+function TimeCommitment() {
+  return (
+    <section className="section tc-section" id="commitment">
+      <div className="wrap">
+        <Reveal className="sec-head">
+          <div className="row"><Sticker tone="cobalt" tilt="tilt-l" icon="clock">Time commitment</Sticker></div>
+          <h2>How much time does it take?</h2>
+          <p className="sub">A fair question — and the honest answer is "it depends on your role." Here's exactly what each level asks of you. Workload drops during exam seasons and college-application crunch.</p>
+        </Reveal>
+        <Cascade className="tc-roles" step={90}>
+          {ROLES.map((r, i) => (
+            <div className="tc-role" key={r.label}>
+              <div className="tc-time">
+                <span className="tc-hrs">{r.time}</span>
+                <span className="tc-unit">per week</span>
+              </div>
+              <div className="tc-role-label">
+                <span className="tc-name">{r.label}</span>
+                {r.sub && <span className="tc-sub">{r.sub}</span>}
+              </div>
+              <p className="tc-desc">{r.desc}</p>
+            </div>
+          ))}
+        </Cascade>
+        <Hr style={{ margin: '52px 0 36px' }} />
+        <div className="tc-qas">
+          {TIME_QAS.map((item) => (
+            <div className="tc-qa" key={item.q}>
+              <h3 className="tc-q">{item.q}</h3>
+              <p className="tc-a">{item.a}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 const INITIATIVES_FAQ = [
   { q: "How many people should I have on my club's board?", a: 'Heads Up requires at least 2 board members: a President and a Vice President. You can always add more positions as you see fit.' },
   { q: 'How can I join the national board?', a: 'Navigate to our Team page and fill out the form linked at the bottom.' },
@@ -119,4 +174,4 @@ const INITIATIVES_FAQ = [
   { q: 'What is the time commitment to join the board?', a: 'National-board Directors spend ~2–3 hours/week and Chief Officers ~3–4 hours; general members ~1 hour/week. We lighten the load across all roles during exam season and college apps.' },
 ];
 
-Object.assign(window, { InitiativesHero, GetInvolved, OtherProgramming, INITIATIVES_FAQ });
+Object.assign(window, { InitiativesHero, GetInvolved, OtherProgramming, TimeCommitment, INITIATIVES_FAQ });

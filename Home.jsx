@@ -1,8 +1,34 @@
 /* Heads Up — Home page sections. Blue-dominant, moss/cream accent. */
 
+function LandingHero() {
+  function scrollToNext(e) {
+    e.preventDefault();
+    const el = document.getElementById('reclaim');
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  }
+  return (
+    <header className="landing-hero" id="top">
+      <div
+        className="landing-hero-bg"
+        style={{ backgroundImage: "url('ChatGPT Image Jun 21, 2026, 10_39_51 AM.png')" }}
+      />
+      <div className="landing-hero-overlay" />
+      <div className="landing-hero-content">
+        <h1 className="landing-hero-h1">
+          This is our generation's<br />response to <em>Addicting</em> Tech
+        </h1>
+        <p className="landing-hero-sub">Big Tech's attempt to steal our time and collect our data.</p>
+        <button className="landing-hero-cta" onClick={scrollToNext}>
+          GET STARTED
+        </button>
+      </div>
+    </header>
+  );
+}
+
 function HomeHero() {
   return (
-    <header className="hhero" id="top">
+    <section className="hhero section" id="look-up">
       <div className="wrap">
         <div className="grid">
           <div>
@@ -28,54 +54,33 @@ function HomeHero() {
           </div>
         </div>
       </div>
-    </header>
+    </section>
   );
 }
 
 function HomeStory() {
-  const rows = [
-    {
-      num: '01',
-      eyebrow: 'Where it started',
-      h: 'One dining hall. One club. One honest conversation.',
-      p: 'Heads Up began at a single school, when a handful of students got real about how much their phones were running their days and decided to do something about it together. That first club became a blueprint other schools could pick up and run with.',
-      cut: 'Fig. 01 — Where Heads Up began.',
-      cta: 'Read our story',
-      href: 'about.html',
-    },
-    {
-      num: '02',
-      eyebrow: 'Why youth-for-youth works',
-      h: 'The people Big Tech targets, designing the way out.',
-      p: "We are the audience these platforms are built to keep scrolling, so we know what actually lands with our peers. Every club, campaign, and module is shaped by students — no middleman, and no lectures from adults who don't quite get it.",
-      cut: 'Fig. 02 — Students leading a session.',
-      cta: 'See our programs',
-      href: 'initiatives.html',
-    },
-  ];
   return (
     <section className="section" id="story">
       <div className="wrap">
-        <div className="story-rows">
-          {rows.map((r, i) => (
-            <Reveal key={i}>
-              <div className={'storyrow' + (i % 2 ? ' flip' : '')}>
-                <div className="storyrow-media">
-                  <figure>
-                    <Placeholder ratio="5/4" />
-                    <figcaption className="rowcut">{r.cut}</figcaption>
-                  </figure>
-                </div>
-                <div className="storyrow-body">
-                  <div className="eyebrow"><span className="fig">{r.num}</span>{r.eyebrow}</div>
-                  <h2>{r.h}</h2>
-                  <p>{r.p}</p>
-                  <a className="textlink" href={r.href}>{r.cta}<Icon name="arrowRight" size={15} /></a>
-                </div>
-              </div>
-            </Reveal>
-          ))}
-        </div>
+        <Reveal className="sec-head">
+          <div className="row"><Sticker tone="moss" tilt="tilt-l" icon="heart">Our story</Sticker></div>
+          <h2>One dining hall. One movement.</h2>
+          <p className="sub">Started by students, built for students — growing across 38 states entirely by the people Big Tech is trying hardest to keep scrolling.</p>
+        </Reveal>
+        <Cascade className="story-pair" step={110}>
+          <div className="story-pair-col">
+            <div className="eyebrow" style={{ color: 'var(--cobalt-600)', marginBottom: 14 }}>01 &middot; Where it started</div>
+            <h3>One honest conversation changed everything.</h3>
+            <p>A handful of students got real about how much their phones were running their days and decided to do something about it together. That first club became a blueprint other schools could pick up and run with.</p>
+            <a className="textlink" href="about.html" style={{ marginTop: 22, display: 'inline-flex' }}>Read our story<Icon name="arrowRight" size={15} /></a>
+          </div>
+          <div className="story-pair-col">
+            <div className="eyebrow" style={{ color: 'var(--moss-700)', marginBottom: 14 }}>02 &middot; Why youth-for-youth works</div>
+            <h3>The people Big Tech targets, designing the way out.</h3>
+            <p>We are the audience these platforms are built to keep scrolling, so we know what actually lands with our peers. Every club and campaign is shaped by students — no middleman, no lectures from adults who don't quite get it.</p>
+            <a className="textlink" href="initiatives.html" style={{ color: 'var(--moss-700)', marginTop: 22, display: 'inline-flex' }}>See our programs<Icon name="arrowRight" size={15} /></a>
+          </div>
+        </Cascade>
       </div>
     </section>
   );
@@ -129,4 +134,4 @@ function HomeMission() {
   );
 }
 
-Object.assign(window, { HomeHero, HomeStory, WhatWeDo, HomeMission });
+Object.assign(window, { LandingHero, HomeHero, HomeStory, WhatWeDo, HomeMission });
