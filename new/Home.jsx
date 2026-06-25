@@ -14,7 +14,7 @@ function HomeHero() {
             <p className="lead">Heads Up is a student-led movement for digital balance. We started in one dining hall and a single club &mdash; now we run clubs, mentorship, and campaigns across the country, built entirely by the people Big Tech is trying hardest to keep scrolling.</p>
             <div className="cta-row">
               <a href={b + 'initiatives.html'}><Button variant="primary" size="lg" iconRight="arrowRight">Start a club</Button></a>
-              <a href={b + 'mentor-program.html'}><Button variant="secondary" size="lg">Become a mentor</Button></a>
+              <a href={b + 'initiatives.html'}><Button variant="secondary" size="lg">Become a Ambassador</Button></a>
             </div>
             <div className="trust">
               <div><b>120+</b><span>chapters</span></div>

@@ -16,8 +16,8 @@ function NavBar({ active = 'About' }) {
     { label: 'Initiatives',      href: 'initiatives.html' },
     { label: 'Learning Modules', href: '#' },
     { label: 'Partners',         href: 'partners.html' },
-    { label: 'Donate',           href: '#' },
-    { label: 'Team',             href: '#' },
+    { label: 'Donate',           href: 'donate.html' },
+    { label: 'Team',             href: 'team.html' },
     { label: 'Contact',          href: 'contact.html' },
   ];
   return (
