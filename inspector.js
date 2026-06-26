@@ -117,6 +117,79 @@
     return (l && f) ? (l/f).toFixed(2) : null;
   }
 
+  // ── CSS declaration lookup: finds the formula as written in the stylesheet ─
+  // Returns the raw declared value (e.g. "clamp(48px, 5vw, 84px)") before
+  // the browser resolves it to pixels. Checks inline styles first, then all
+  // loaded stylesheets (respects active @media queries, one level deep).
+  function getDeclaredValue(el, prop) {
+    // 1. Inline style wins outright
+    const inl = el.style.getPropertyValue(prop);
+    if (inl) return inl;
+
+    // 2. Walk all stylesheets, collect every matching rule's value
+    const hits = [];
+
+    function walkRules(rules) {
+      for (const rule of rules) {
+        if (rule.type === CSSRule.STYLE_RULE) {
+          try {
+            if (el.matches(rule.selectorText)) {
+              const v = rule.style.getPropertyValue(prop);
+              if (v) hits.push(v);
+            }
+          } catch (_) { /* invalid selector */ }
+        } else if (rule.type === CSSRule.MEDIA_RULE) {
+          try {
+            if (window.matchMedia(rule.conditionText).matches) {
+              walkRules(rule.cssRules);
+            }
+          } catch (_) { /* bad conditionText */ }
+        }
+      }
+    }
+
+    for (const sheet of document.styleSheets) {
+      try { walkRules(sheet.cssRules); } catch (_) { /* cross-origin sheet */ }
+    }
+
+    // Last matching rule wins (CSS cascade)
+    return hits.length ? hits[hits.length - 1] : null;
+  }
+
+  // Formats a size row showing both the rendered pixel value and either:
+  //   a) the original CSS formula when one exists (clamp, %, min/max, etc.)
+  //   b) an explanation when no formula exists (size is computed by layout)
+  function sizeRow(label, renderedVal, formula) {
+    let sub = '';
+    if (formula && formula !== renderedVal) {
+      // A CSS formula was found and it differs from the resolved px value
+      sub = `<br><span style="color:#5A82CC;font-size:8px">formula → ${formula}</span>`;
+    } else if (!formula) {
+      // No CSS rule sets this property — the browser computed it from layout
+      sub = `<br><span style="color:#4C5566;font-size:8px">no CSS formula — browser sized this automatically via ${_layoutSource()}</span>`;
+    }
+    return `<div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:4px">
+      <span style="color:#687284;flex-shrink:0;min-width:0">${label}</span>
+      <span style="text-align:right;flex-shrink:1;word-break:break-all"><span style="color:#E1EEFC">${renderedVal}</span>${sub}</span>
+    </div>`;
+  }
+
+  // Tiny helper used inside sizeRow — reads _currentEl set just before renderPanel
+  // to give a human-readable reason why the browser chose the size it did.
+  let _currentEl = null;
+  function _layoutSource() {
+    if (!_currentEl) return 'layout';
+    const cs = window.getComputedStyle(_currentEl);
+    const parentCs = _currentEl.parentElement ? window.getComputedStyle(_currentEl.parentElement) : null;
+    if (parentCs) {
+      if (parentCs.display === 'grid')             return 'grid column/row assignment';
+      if (parentCs.display === 'flex' || parentCs.display === 'inline-flex') return 'flex distribution';
+    }
+    if (cs.display === 'block' || cs.display === 'list-item') return 'block flow (fills container width)';
+    if (cs.display === 'inline' || cs.display === 'inline-block') return 'inline flow (shrinks to content)';
+    return 'layout';
+  }
+
   function getComp(el) {
     for (const cls of el.classList) { if (COMPS[cls]) return COMPS[cls]; }
     switch (el.tagName.toLowerCase()) {
@@ -205,6 +278,7 @@
   }
 
   function renderPanel(el, isLocked) {
+    _currentEl = el;
     const cs  = window.getComputedStyle(el);
     const comp = getComp(el);
     const classes = Array.from(el.classList);
@@ -283,13 +357,29 @@
     }
 
     // ── Size ───────────────────────────────────────────────────────────────
-    h += sec('Size  (actual rendered dimensions on screen)');
-    h += row('Width', cs.width);
-    h += row('Height', cs.height);
-    h += row('Min Width  (will never go smaller than)', cs.minWidth === '0px' ? '0px  (no minimum set)' : cs.minWidth);
-    h += row('Max Width  (will never go bigger than)', cs.maxWidth === 'none' ? 'none  (no maximum set)' : cs.maxWidth);
-    h += row('Min Height  (will never go smaller than)', cs.minHeight === '0px' ? '0px  (no minimum set)' : cs.minHeight);
-    h += row('Max Height  (will never go bigger than)', cs.maxHeight === 'none' ? 'none  (no maximum set)' : cs.maxHeight);
+    h += sec('Size  (rendered px value  +  the original CSS formula if different)');
+    h += sizeRow('Width', cs.width,     getDeclaredValue(el, 'width'));
+    h += sizeRow('Height', cs.height,   getDeclaredValue(el, 'height'));
+    h += sizeRow(
+      'Min Width  (will never shrink past this)',
+      cs.minWidth  === '0px'  ? '0px  (no minimum set)' : cs.minWidth,
+      getDeclaredValue(el, 'min-width')
+    );
+    h += sizeRow(
+      'Max Width  (will never grow past this)',
+      cs.maxWidth  === 'none' ? 'none  (no maximum set)' : cs.maxWidth,
+      getDeclaredValue(el, 'max-width')
+    );
+    h += sizeRow(
+      'Min Height  (will never shrink past this)',
+      cs.minHeight === '0px'  ? '0px  (no minimum set)' : cs.minHeight,
+      getDeclaredValue(el, 'min-height')
+    );
+    h += sizeRow(
+      'Max Height  (will never grow past this)',
+      cs.maxHeight === 'none' ? 'none  (no maximum set)' : cs.maxHeight,
+      getDeclaredValue(el, 'max-height')
+    );
 
     // ── Visual ─────────────────────────────────────────────────────────────
     const hasRadius  = cs.borderRadius !== '0px';
