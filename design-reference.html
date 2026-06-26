@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Heads Up — Design Reference</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Hanken+Grotesk:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --cobalt-50:#EAF0FB; --cobalt-100:#D4E1F7; --cobalt-200:#AFC6EE; --cobalt-300:#87A9E2;
+  --cobalt-400:#5A82CC; --cobalt-500:#2955AC; --cobalt-600:#234A97; --cobalt-700:#1D3D7E;
+  --cobalt-800:#173063;
+  --sky-50:#F0F6FE; --sky-100:#E1EEFC; --sky-200:#C7DEF9; --sky-300:#97BDF1; --sky-400:#6E9FE6;
+  --ink-50:#F4F7FC; --ink-100:#E8ECF3; --ink-200:#D6DCE7; --ink-300:#B4BCCB; --ink-400:#8A94A6;
+  --ink-500:#687284; --ink-600:#4C5566; --ink-700:#333B49; --ink-800:#1E2430; --ink-900:#12161F;
+  --moss:#5C7667; --moss-700:#45594D; --moss-800:#34453B; --moss-300:#A9BBAF; --moss-100:#DCE5DD;
+  --f-display:'Bricolage Grotesque',sans-serif;
+  --f-sans:'Hanken Grotesk',sans-serif;
+  --f-mono:'Space Mono',monospace;
+  --f-hand:'Caveat',cursive;
+}
+
+body {
+  font-family: var(--f-sans);
+  background: var(--ink-50);
+  color: var(--ink-900);
+  font-size: 11px;
+  line-height: 1.4;
+  padding: 14px;
+}
+
+/* ── Layout ── */
+.page-title {
+  font-family: var(--f-display); font-weight: 800; font-size: 13px;
+  letter-spacing: -.01em; margin-bottom: 10px; display: flex; align-items: center; gap: 10px;
+}
+.page-title span { font-family: var(--f-mono); font-size: 9px; font-weight: 400;
+  letter-spacing: .08em; text-transform: uppercase; color: var(--ink-400); }
+
+.grid {
+  display: grid;
+  grid-template-columns: 152px 196px 1fr 1fr 1fr;
+  gap: 10px;
+  align-items: start;
+}
+.col { display: flex; flex-direction: column; gap: 10px; }
+
+/* ── Section label ── */
+.sec {
+  font-family: var(--f-mono); font-size: 8.5px; font-weight: 700;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--ink-400);
+  padding-bottom: 4px; border-bottom: 1px solid var(--ink-200); margin-bottom: 4px;
+}
+
+/* ── Explanation box ── */
+.note {
+  background: var(--cobalt-50);
+  border-left: 2px solid var(--cobalt-400);
+  padding: 5px 7px;
+  margin-top: 5px;
+  border-radius: 0 4px 4px 0;
+  font-family: var(--f-mono);
+  font-size: 7.5px;
+  line-height: 1.6;
+  color: var(--ink-600);
+}
+.note b { color: var(--cobalt-700); }
+.note-moss { border-color: var(--moss); background: var(--moss-100); }
+.note-moss b { color: var(--moss-700); }
+.note-ink { border-color: var(--ink-400); background: var(--ink-100); }
+.note-ink b { color: var(--ink-700); }
+
+/* ── Color swatches ── */
+.swatch-row { display: flex; height: 16px; border-radius: 3px; overflow: hidden; margin-bottom: 2px; }
+.swatch { flex: 1; }
+.swatch-label { font-family: var(--f-mono); font-size: 8px; color: var(--ink-500);
+  display: flex; justify-content: space-between; margin-bottom: 3px; }
+.swatch-single { display: flex; align-items: center; gap: 6px; margin-bottom: 3px; }
+.sw { width: 13px; height: 13px; border-radius: 2px; flex: none; border: 1px solid rgba(0,0,0,.08); }
+.sw-label { font-family: var(--f-mono); font-size: 8px; color: var(--ink-600); }
+.sw-hex { font-family: var(--f-mono); font-size: 8px; color: var(--ink-400); margin-left: auto; }
+
+/* ── Typography ── */
+.type-row { margin-bottom: 5px; padding-bottom: 5px; border-bottom: 1px solid var(--ink-100); }
+.type-sample { line-height: 1.1; margin-bottom: 2px; }
+.type-meta { font-family: var(--f-mono); font-size: 7.5px; color: var(--ink-400); }
+.type-meta b { color: var(--ink-600); font-weight: 700; }
+.type-tag { display: inline-block; background: var(--ink-100); border-radius: 3px;
+  font-family: var(--f-mono); font-size: 7px; color: var(--ink-500);
+  padding: 1px 4px; margin-left: 4px; letter-spacing: .04em; }
+
+/* ── Spacing ── */
+.sp-row { display: flex; align-items: center; gap: 6px; margin-bottom: 3px; }
+.sp-bar { background: var(--cobalt-200); height: 7px; border-radius: 1px; flex: none; }
+.sp-info { font-family: var(--f-mono); font-size: 7.5px; color: var(--ink-500); }
+.sp-info b { color: var(--ink-800); }
+
+/* ── Radius ── */
+.r-row { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+.r-box { width: 26px; height: 18px; background: var(--cobalt-100);
+  border: 1.5px solid var(--cobalt-300); flex: none; }
+.r-info { font-family: var(--f-mono); font-size: 7.5px; color: var(--ink-500); }
+.r-info b { color: var(--ink-800); }
+
+/* ── Shadows ── */
+.sh-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.sh-box { width: 26px; height: 18px; background: #fff; flex: none; border-radius: 3px; }
+.sh-info { font-family: var(--f-mono); font-size: 7px; color: var(--ink-500); line-height: 1.5; }
+.sh-info b { color: var(--ink-800); }
+
+/* ── Buttons ── */
+.btn-row { display: flex; flex-direction: column; gap: 5px; }
+.btn { display: inline-flex; align-items: center; gap: 6px; font-family: var(--f-sans);
+  font-weight: 700; font-size: 10.5px; border: 0; cursor: default; border-radius: 999px;
+  padding: 7px 13px; line-height: 1; width: fit-content; }
+.btn-primary   { background: var(--cobalt-500); color: #fff; box-shadow: 0 3px 0 var(--cobalt-700); }
+.btn-secondary { background: #fff; color: var(--cobalt-600); box-shadow: 0 0 0 2px var(--cobalt-500) inset; }
+.btn-white     { background: #fff; color: var(--cobalt-700); box-shadow: 0 3px 0 rgba(0,0,0,.18); }
+.btn-moss      { background: var(--moss); color: #fff; box-shadow: 0 3px 0 var(--moss-800); }
+
+/* ── Eyebrow ── */
+.eyebrow-sample { font-family: var(--f-mono); font-weight: 700; font-size: 10px;
+  letter-spacing: .16em; text-transform: uppercase; color: var(--cobalt-500); }
+
+/* ── Sticker ── */
+.sticker { display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--f-mono); font-weight: 700; font-size: 9px; letter-spacing: .08em;
+  text-transform: uppercase; padding: 5px 11px;
+  border-radius: 7px 30px 9px 26px / 18px 9px 22px 11px;
+  border: 2px solid var(--ink-900); background: #fff; color: var(--ink-900);
+  box-shadow: 2px 3px 0 var(--ink-900); transform: rotate(-2deg); width: fit-content; }
+.sticker.cobalt { background: var(--cobalt-500); color: #fff;
+  border-color: var(--cobalt-800); box-shadow: 2px 3px 0 var(--cobalt-800); }
+.sticker.moss   { background: var(--moss); color: #fff;
+  border-color: var(--moss-800); box-shadow: 2px 3px 0 var(--moss-800); }
+
+/* ── Highlight ── */
+.hl { background-image: linear-gradient(180deg, transparent 54%, #97BDF1 54%, #97BDF1 94%, transparent 94%);
+  padding: 0 .06em; }
+
+/* ── Divider ── */
+.div-row { margin-bottom: 4px; }
+.div-line { height: 0; border: 0; margin-bottom: 2px; }
+.div-default { border-top: 1.5px solid rgba(18,22,31,.14); }
+.div-strong  { border-top: 1.5px solid rgba(18,22,31,.28); }
+.div-label   { font-family: var(--f-mono); font-size: 7px; color: var(--ink-400); margin-top: 1px; }
+
+/* ── Misc ── */
+.hand-sample { font-family: var(--f-hand); font-weight: 600; font-size: 16px;
+  color: var(--cobalt-600); }
+.nav-pill { font-family: var(--f-sans); font-weight: 600; font-size: 10px;
+  background: var(--cobalt-500); color: #fff; border-radius: 999px;
+  padding: 4px 9px; display: inline-block; }
+.nav-link { font-family: var(--f-sans); font-weight: 600; font-size: 10px;
+  color: var(--ink-700); display: inline-block; margin-right: 5px; }
+</style>
+</head>
+<body>
+
+<div class="page-title">
+  Heads Up <span>Design Reference — Webflow Implementation Guide</span>
+</div>
+
+<div class="grid">
+
+  <!-- ══ COL 1: COLORS ══════════════════════════════════════════════════════ -->
+  <div class="col">
+
+    <div>
+      <div class="sec">Cobalt — Primary</div>
+      <div class="swatch-row">
+        <div class="swatch" style="background:var(--cobalt-50)"></div>
+        <div class="swatch" style="background:var(--cobalt-100)"></div>
+        <div class="swatch" style="background:var(--cobalt-200)"></div>
+        <div class="swatch" style="background:var(--cobalt-300)"></div>
+        <div class="swatch" style="background:var(--cobalt-400)"></div>
+        <div class="swatch" style="background:var(--cobalt-500)"></div>
+        <div class="swatch" style="background:var(--cobalt-600)"></div>
+        <div class="swatch" style="background:var(--cobalt-700)"></div>
+        <div class="swatch" style="background:var(--cobalt-800)"></div>
+      </div>
+      <div class="swatch-label"><span>50</span><span>500 — #2955AC</span><span>800</span></div>
+      <div class="swatch-single"><div class="sw" style="background:var(--cobalt-500)"></div><span class="sw-label">Primary CTA</span><span class="sw-hex">#2955AC</span></div>
+      <div class="swatch-single"><div class="sw" style="background:var(--cobalt-600)"></div><span class="sw-label">Hover state</span><span class="sw-hex">#234A97</span></div>
+      <div class="swatch-single"><div class="sw" style="background:var(--cobalt-700)"></div><span class="sw-label">Hard shadow</span><span class="sw-hex">#1D3D7E</span></div>
+      <div class="note">
+        <b>Webflow:</b> Add as Global Swatches. Name them exactly <b>cobalt-500</b>, <b>cobalt-600</b>, etc. Use cobalt-500 for all primary buttons + eyebrows. cobalt-600 on :hover. cobalt-700 as the hard bottom box-shadow color. Never use cobalt-400 or lighter as text — contrast fails WCAG AA.
+      </div>
+    </div>
+
+    <div>
+      <div class="sec">Sky — Accent only</div>
+      <div class="swatch-row" style="height:12px">
+        <div class="swatch" style="background:var(--sky-50)"></div>
+        <div class="swatch" style="background:var(--sky-100)"></div>
+        <div class="swatch" style="background:var(--sky-200)"></div>
+        <div class="swatch" style="background:var(--sky-300)"></div>
+        <div class="swatch" style="background:var(--sky-400)"></div>
+      </div>
+      <div class="swatch-single" style="margin-top:3px"><div class="sw" style="background:var(--sky-300)"></div><span class="sw-label">Highlight ink</span><span class="sw-hex">#97BDF1</span></div>
+      <div class="note">
+        <b>sky-300</b> (#97BDF1) is used exclusively for the inline text highlight marker (background-image gradient on a Span). Not used as button fills, section backgrounds, or borders. sky-100/200 appear on dark cobalt panels as muted text color.
+      </div>
+    </div>
+
+    <div>
+      <div class="sec">Moss — Secondary (30%)</div>
+      <div class="swatch-row" style="height:12px">
+        <div class="swatch" style="background:var(--moss-100)"></div>
+        <div class="swatch" style="background:var(--moss-300)"></div>
+        <div class="swatch" style="background:var(--moss)"></div>
+        <div class="swatch" style="background:var(--moss-700)"></div>
+        <div class="swatch" style="background:var(--moss-800)"></div>
+      </div>
+      <div class="swatch-single" style="margin-top:3px"><div class="sw" style="background:var(--moss)"></div><span class="sw-label">Moss base</span><span class="sw-hex">#5C7667</span></div>
+      <div class="note note-moss">
+        <b>Secondary tone</b> — appears ~30% of the site. Use for: alt Sticker badge tone, "See programs" button, eyebrow label on alternate sections (moss-700). moss-800 (#34453B) = hard button shadow. Never mix cobalt + moss on the same element.
+      </div>
+    </div>
+
+    <div>
+      <div class="sec">Ink — Neutrals</div>
+      <div class="swatch-row">
+        <div class="swatch" style="background:var(--ink-50)"></div>
+        <div class="swatch" style="background:var(--ink-100)"></div>
+        <div class="swatch" style="background:var(--ink-200)"></div>
+        <div class="swatch" style="background:var(--ink-300)"></div>
+        <div class="swatch" style="background:var(--ink-400)"></div>
+        <div class="swatch" style="background:var(--ink-500)"></div>
+        <div class="swatch" style="background:var(--ink-600)"></div>
+        <div class="swatch" style="background:var(--ink-700)"></div>
+        <div class="swatch" style="background:var(--ink-800)"></div>
+        <div class="swatch" style="background:var(--ink-900)"></div>
+      </div>
+      <div class="swatch-label"><span>50 page bg</span><span>→</span><span>900 text</span></div>
+      <div class="swatch-single"><div class="sw" style="background:var(--ink-50)"></div><span class="sw-label">Page bg</span><span class="sw-hex">#F4F7FC</span></div>
+      <div class="swatch-single"><div class="sw" style="background:var(--ink-200);border-color:var(--ink-300)"></div><span class="sw-label">Border</span><span class="sw-hex">#D6DCE7</span></div>
+      <div class="swatch-single"><div class="sw" style="background:var(--ink-500)"></div><span class="sw-label">Muted / icons</span><span class="sw-hex">#687284</span></div>
+      <div class="swatch-single"><div class="sw" style="background:var(--ink-600)"></div><span class="sw-label">Lead body text</span><span class="sw-hex">#4C5566</span></div>
+      <div class="swatch-single"><div class="sw" style="background:var(--ink-900)"></div><span class="sw-label">Headings / body</span><span class="sw-hex">#12161F</span></div>
+      <div class="note note-ink">
+        <b>ink-50</b> = page background (not pure white — slightly blue-gray). <b>ink-900</b> = all headings + main body text. <b>ink-600</b> = secondary paragraph / lead text. <b>ink-200</b> = visible card borders. <b>ink-400</b> = placeholder initials, captions, faint dividers.
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ COL 2: TYPOGRAPHY ═══════════════════════════════════════════════════ -->
+  <div class="col">
+    <div class="sec">Typography</div>
+
+    <div class="type-row">
+      <div class="type-sample" style="font-family:var(--f-display);font-weight:800;font-size:24px;letter-spacing:-.02em;line-height:1.04">Display</div>
+      <div class="type-meta"><b>Bricolage Grotesque 800</b> · clamp(48px→84px) · lh 1.04 · ls −0.02em<span class="type-tag">H1 landing</span></div>
+      <div class="note" style="margin-top:3px">Used only on the home LandingHero. In Webflow: set on &lt;h1&gt; inside the hero section. Use clamp() via Custom CSS, or set 84px on Desktop breakpoint / 48px on Mobile.</div>
+    </div>
+
+    <div class="type-row">
+      <div class="type-sample" style="font-family:var(--f-display);font-weight:800;font-size:19px;letter-spacing:-.02em;line-height:1.04">Heading 1</div>
+      <div class="type-meta"><b>Bricolage Grotesque 800</b> · clamp(36px→56px) · lh 1.04 · ls −0.02em<span class="type-tag">Page heroes</span></div>
+      <div class="note" style="margin-top:3px">Standard page hero heading (About, Team, Donate, etc.). In Webflow: &lt;h1&gt; with class <b>heading-1</b>. Set negative letter-spacing via Custom CSS — Webflow's "Letter Spacing" field accepts em values.</div>
+    </div>
+
+    <div class="type-row">
+      <div class="type-sample" style="font-family:var(--f-display);font-weight:800;font-size:15px;letter-spacing:-.015em;line-height:1.05">Heading 2</div>
+      <div class="type-meta"><b>Bricolage Grotesque 800</b> · clamp(33px→51px) · lh 1.05 · ls −0.02em<span class="type-tag">Section titles</span></div>
+      <div class="note" style="margin-top:3px">Main section headings ("One dining hall. One movement."). In Webflow: &lt;h2&gt; inside each section's .sec-head container. Often combined with the highlight Span for underline effect.</div>
+    </div>
+
+    <div class="type-row">
+      <div class="type-sample" style="font-family:var(--f-display);font-weight:700;font-size:12px;letter-spacing:-.01em;line-height:1.18">Heading 3</div>
+      <div class="type-meta"><b>Bricolage Grotesque 700</b> · 24px · lh 1.18 · ls −0.01em<span class="type-tag">Cards / subsections</span></div>
+      <div class="note" style="margin-top:3px">Used inside feature cards, story columns, and FAQ items. In Webflow: &lt;h3&gt; with class <b>heading-3</b>. Weight 700 (not 800) — slightly lighter than section titles.</div>
+    </div>
+
+    <div class="type-row">
+      <div class="type-sample" style="font-family:var(--f-sans);font-weight:400;font-size:12px;line-height:1.6;color:var(--ink-600)">Lead / intro paragraph text</div>
+      <div class="type-meta"><b>Hanken Grotesk 400</b> · 19px · lh 1.5 · color ink-600<span class="type-tag">.lead</span></div>
+      <div class="note" style="margin-top:3px">First paragraph under a section heading or in the page hero sub-line. In Webflow: &lt;p&gt; with class <b>lead</b>. Color is ink-600 — notably lighter than body copy. Max-width ~560px inside .wrap.</div>
+    </div>
+
+    <div class="type-row">
+      <div class="type-sample" style="font-family:var(--f-sans);font-weight:400;font-size:11px;line-height:1.62;color:var(--ink-700)">Body copy — section paragraph text.</div>
+      <div class="type-meta"><b>Hanken Grotesk 400</b> · 17px · lh 1.62 · color ink-700<span class="type-tag">default &lt;p&gt;</span></div>
+      <div class="note" style="margin-top:3px">Default paragraph style. In Webflow: set this as the global &lt;p&gt; style in Global Styles or Tag Styles. All card descriptions and section body text use this.</div>
+    </div>
+
+    <div class="type-row">
+      <div class="type-sample eyebrow-sample">Eyebrow label</div>
+      <div class="type-meta"><b>Space Mono 700</b> · 12px · ls 0.16em · uppercase · cobalt-500<span class="type-tag">.eyebrow</span></div>
+      <div class="note" style="margin-top:3px">Always appears <i>above</i> an H2, never below. In Webflow: &lt;div&gt; or &lt;p&gt; with class <b>eyebrow</b>. Color alternates: cobalt-500 on standard sections, moss-700 on alternate sections. Never use an H tag here — purely decorative label.</div>
+    </div>
+
+    <div class="type-row">
+      <div class="type-sample" style="font-family:var(--f-mono);font-weight:700;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-500)">Mono UI label</div>
+      <div class="type-meta"><b>Space Mono 700</b> · 11px · ls 0.08em · uppercase · ink-500<span class="type-tag">nav / captions</span></div>
+      <div class="note" style="margin-top:3px">Used for section label chips, tier labels (Leadership, Directors), footer micro text, and the sticker badge text. Smaller tracking than eyebrow (0.08em vs 0.16em).</div>
+    </div>
+
+    <div class="type-row" style="border-bottom:0">
+      <div class="type-sample hand-sample">Hand accent</div>
+      <div class="type-meta"><b>Caveat 600</b> · 18–24px · cobalt-600<span class="type-tag">sparingly</span></div>
+      <div class="note" style="margin-top:3px">Used only in the DrawHL / highlighted heading component (e.g. "look <u>up</u>"). In Webflow: &lt;em&gt; or &lt;span&gt; inside a heading with class <b>hand-accent</b>. Max 2–3 uses per page.</div>
+    </div>
+  </div>
+
+  <!-- ══ COL 3: SPACING + RADIUS + SHADOWS ══════════════════════════════════ -->
+  <div class="col">
+    <div>
+      <div class="sec">Spacing (4px base grid)</div>
+      <div class="sp-row"><div class="sp-bar" style="width:4px"></div><span class="sp-info"><b>4px</b> · sp-1 · gap between icon+text</span></div>
+      <div class="sp-row"><div class="sp-bar" style="width:8px"></div><span class="sp-info"><b>8px</b> · sp-2 · stacked label gap</span></div>
+      <div class="sp-row"><div class="sp-bar" style="width:12px"></div><span class="sp-info"><b>12px</b> · sp-3 · card internal padding</span></div>
+      <div class="sp-row"><div class="sp-bar" style="width:16px"></div><span class="sp-info"><b>16px</b> · sp-4 · between eyebrow→h2</span></div>
+      <div class="sp-row"><div class="sp-bar" style="width:24px"></div><span class="sp-info"><b>24px</b> · sp-6 · list item gap</span></div>
+      <div class="sp-row"><div class="sp-bar" style="width:32px"></div><span class="sp-info"><b>32px</b> · sp-8 · card grid gap (3-col)</span></div>
+      <div class="sp-row"><div class="sp-bar" style="width:48px"></div><span class="sp-info"><b>48px</b> · sp-12 · section internal gap</span></div>
+      <div class="sp-row"><div class="sp-bar" style="width:72px"></div><span class="sp-info"><b>72px</b> · 2-col section gap</span></div>
+      <div class="sp-row"><div class="sp-bar" style="width:92px"></div><span class="sp-info"><b>92px</b> · section padding top/bottom</span></div>
+      <div class="note">
+        <b>Webflow setup:</b> No spacing variables — set values directly from this scale. Content wrapper (<b>.wrap</b>): max-width 1120px, padding-left 28px, padding-right 28px, margin auto. Section: padding-top 92px, padding-bottom 92px. Two-column layout gap: 72px. Three-column grid gap: 32–48px. Section header margin-bottom: 56px.
+      </div>
+    </div>
+
+    <div>
+      <div class="sec">Border Radius</div>
+      <div class="r-row"><div class="r-box" style="border-radius:6px"></div><span class="r-info"><b>6px</b> — xs · small tags, badges</span></div>
+      <div class="r-row"><div class="r-box" style="border-radius:10px"></div><span class="r-info"><b>10px</b> — sm · inputs, sticker chips</span></div>
+      <div class="r-row"><div class="r-box" style="border-radius:16px"></div><span class="r-info"><b>16px</b> — md · cards, form fields</span></div>
+      <div class="r-row"><div class="r-box" style="border-radius:24px"></div><span class="r-info"><b>24px</b> — lg · large panels</span></div>
+      <div class="r-row"><div class="r-box" style="border-radius:32px"></div><span class="r-info"><b>32px</b> — xl · mission block</span></div>
+      <div class="r-row"><div class="r-box" style="border-radius:999px"></div><span class="r-info"><b>999px</b> — pill · all buttons</span></div>
+      <div class="note note-ink">
+        <b>Organic sticker radius</b> (not shown above) uses two-value shorthand: <b>7px 30px 9px 26px / 18px 9px 22px 11px</b> — this irregular quad creates the hand-cut badge feel. Must be set via Custom CSS in Webflow (Style Panel only supports uniform or per-corner, not the "/" shorthand).
+      </div>
+    </div>
+
+    <div>
+      <div class="sec">Shadows</div>
+      <div class="sh-row"><div class="sh-box" style="box-shadow:0 1px 2px rgba(18,22,31,.06)"></div><span class="sh-info"><b>xs</b> — 0 1px 2px rgba(18,22,31,.06)<br>nav resting state</span></div>
+      <div class="sh-row"><div class="sh-box" style="box-shadow:0 2px 6px rgba(18,22,31,.07)"></div><span class="sh-info"><b>sm</b> — 0 2px 6px rgba(18,22,31,.07)<br>surface cards, polaroids</span></div>
+      <div class="sh-row"><div class="sh-box" style="box-shadow:0 8px 24px rgba(23,48,99,.10)"></div><span class="sh-info"><b>md</b> — 0 8px 24px rgba(23,48,99,.10)<br>feature cards on hover</span></div>
+      <div class="sh-row"><div class="sh-box" style="box-shadow:0 20px 48px rgba(23,48,99,.16)"></div><span class="sh-info"><b>lg</b> — 0 20px 48px rgba(23,48,99,.16)<br>modal / elevated panel</span></div>
+      <div class="sh-row"><div class="sh-box" style="box-shadow:0 4px 0 var(--cobalt-700)"></div><span class="sh-info"><b>btn hard</b> — 0 4px 0 cobalt-700<br>3D press effect on all buttons</span></div>
+      <div class="note">
+        <b>Hard shadow</b> (0 Xpx 0 color) creates a "tactile press" illusion — not a blur, just a solid offset. In Webflow: add Box Shadow with Blur = 0, Spread = 0, Y offset = 4px, color = cobalt-700. On :hover interaction → Move Y -2px + increase Y offset to 6px. On :active → Move Y +1px + decrease Y offset to 2px.
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ COL 4: COMPONENTS ═══════════════════════════════════════════════════ -->
+  <div class="col">
+    <div>
+      <div class="sec">Buttons</div>
+      <div class="btn-row">
+        <div>
+          <div class="btn btn-primary">Primary button</div>
+          <div class="type-meta" style="margin-top:2px">bg cobalt-500 · #fff text · pill · hard shadow cobalt-700</div>
+        </div>
+        <div>
+          <div class="btn btn-secondary">Secondary button</div>
+          <div class="type-meta" style="margin-top:2px">bg #fff · cobalt-600 text · 2px inset border cobalt-500</div>
+        </div>
+        <div>
+          <div class="btn btn-white">White button</div>
+          <div class="type-meta" style="margin-top:2px">bg #fff · cobalt-700 text · shadow 0 4px 0 rgba(0,0,0,.18)</div>
+        </div>
+        <div>
+          <div class="btn btn-moss">Moss button</div>
+          <div class="type-meta" style="margin-top:2px">bg moss · #fff text · hard shadow moss-800</div>
+        </div>
+      </div>
+      <div class="note">
+        <b>Webflow Component:</b> Base class <b>.btn</b>. Add combo classes for variants: .btn.primary, .btn.moss, etc. Padding: 14px 28px (large) · 9px 18px (default) · 8px 14px (small). Font: Hanken 700 15px. <b>Hover Interaction:</b> translateY(-2px), box-shadow Y +2px. <b>Active:</b> translateY(1px), box-shadow Y -1px.
+      </div>
+    </div>
+
+    <div>
+      <div class="sec">Eyebrow Label</div>
+      <div class="eyebrow-sample" style="margin-bottom:3px">Section label</div>
+      <div class="type-meta">Space Mono 700 · 12px · ls 0.16em · uppercase · cobalt-500</div>
+      <div class="note">
+        <b>Webflow:</b> &lt;div&gt; or &lt;p&gt; with class <b>eyebrow</b>. Always placed directly above an H2, with ~14px margin-bottom before the heading. <b>Never use an H tag</b> — it's decorative, not semantic. Alt color: moss-700 on story sections. Use cobalt-500 on all others.
+      </div>
+    </div>
+
+    <div>
+      <div class="sec">Sticker Badge</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:4px;align-items:center">
+        <div class="sticker">Default</div>
+        <div class="sticker cobalt" style="transform:rotate(2deg)">Cobalt</div>
+        <div class="sticker moss" style="transform:rotate(-1.5deg)">Moss</div>
+      </div>
+      <div class="type-meta">Space Mono 700 · 12px · ls 0.08em · uppercase · 2px border · 2px 3px 0 hard shadow · ±2–3° rotation</div>
+      <div class="note">
+        <b>Webflow Component</b> — always reusable. Irregular border-radius must be set via Custom CSS (not Style Panel). Rotation: Transform → Rotate Z ±2–3°. Default tone = white bg + ink-900 border. Cobalt = cobalt-500 bg + cobalt-800 border + white text. Moss = same pattern. Always pair with an icon (16–18px) from Lucide.
+      </div>
+    </div>
+
+    <div>
+      <div class="sec">Highlight Marker</div>
+      <div style="font-family:var(--f-display);font-weight:800;font-size:13px;margin-bottom:3px">
+        Helping students <span class="hl">look up.</span>
+      </div>
+      <div class="type-meta">Inline &lt;span&gt; · background-image gradient only · no padding change</div>
+      <div class="note">
+        <b>Webflow:</b> Select the word(s) in the heading → Wrap in a &lt;span&gt; → class <b>highlight-mark</b>. In Custom CSS: <code>.highlight-mark { background-image: linear-gradient(180deg, transparent 54%, #97BDF1 54%, #97BDF1 94%, transparent 94%); padding: 0 .06em; }</code>. The 54%–94% range creates the highlighter-pen look sitting below the baseline.
+      </div>
+    </div>
+
+    <div>
+      <div class="sec">Dividers</div>
+      <div class="div-row"><hr class="div-line div-default"><div class="div-label">Default — rgba(18,22,31,.14) · between sections</div></div>
+      <div class="div-row"><hr class="div-line div-strong"><div class="div-label">Strong — rgba(18,22,31,.28) · before CTA or footer</div></div>
+      <div class="div-row" style="background:var(--ink-800);padding:3px 5px;border-radius:3px"><hr class="div-line" style="border-top:1.5px solid rgba(255,255,255,.22)"><div class="div-label" style="color:var(--ink-300)">On dark — rgba(255,255,255,.22) · inside cobalt panels</div></div>
+      <div class="note note-ink">
+        <b>Webflow:</b> &lt;hr&gt; element, height 0, border-top only. Class <b>divider</b> with combo class for strength. Never use a background-color approach — the rgba opacity is intentional for all backgrounds. On-dark variant is only used inside cobalt-gradient mission/hero panels.
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ COL 5: NAV + LAYOUT ═════════════════════════════════════════════════ -->
+  <div class="col">
+
+    <div>
+      <div class="sec">Navigation</div>
+      <div style="background:rgba(244,247,252,.92);border:1px solid var(--ink-200);border-radius:6px;padding:7px 9px;margin-bottom:4px;display:flex;align-items:center;gap:7px;flex-wrap:wrap">
+        <span style="font-family:var(--f-display);font-weight:800;font-size:11px">Heads Up</span>
+        <span class="nav-link">About</span>
+        <span class="nav-link">Initiatives</span>
+        <span class="nav-pill">Active</span>
+        <span class="nav-link">Donate</span>
+      </div>
+      <div class="type-meta" style="margin-bottom:3px">Height: <b>74px</b> · sticky top 0 · z-index 50 · bg rgba(244,247,252,.82) + backdrop blur 12px<br>Scrolled: bg opacity .95 + border-bottom 2px ink-900<br>Links: Hanken 600 · 13.5px · Active: cobalt-500 pill · 8px 9px pad</div>
+      <div class="note">
+        <b>Webflow Symbol</b> — create once, use on all pages. Set position: sticky, top: 0, z-index: 50. Background via Custom CSS: <b>backdrop-filter: blur(12px)</b> (not available in Webflow Style Panel natively — use Custom CSS). On scroll class "scrolled": add via Webflow Interaction (trigger: scroll down past 12px) or JS. Active link is a &lt;span&gt; with class <b>active-pill</b> wrapping the label.
+      </div>
+    </div>
+
+    <div>
+      <div class="sec">Layout Grid</div>
+      <div class="type-meta" style="line-height:2">
+        Page bg: <b>#F4F7FC</b> (ink-50)<br>
+        Content max-width: <b>1120px</b><br>
+        Side gutter (.wrap): <b>28px</b> each side<br>
+        Section padding: <b>92px</b> top + bottom<br>
+        2-col gap: <b>72px</b> (flexbox)<br>
+        3-col gap: <b>32–48px</b> (CSS grid)<br>
+        Section header → content gap: <b>56px</b><br>
+        Nav scroll-offset: <b>74px</b> (scroll-margin-top)<br>
+        Mobile breakpoint: <b>768px</b> → single col
+      </div>
+      <div class="note">
+        <b>Webflow:</b> Don't use Webflow's 12-col grid — most layouts use a custom <b>.wrap</b> div (max-width 1120px, auto margins, 28px horizontal padding). Sections use Flexbox or CSS Grid set via Custom CSS. Mobile: all multi-column layouts collapse to 1 column below 768px. The scrollsnap on mobile is set via Custom CSS, disabled on desktop.
+      </div>
+    </div>
+
+    <div>
+      <div class="sec">Fonts — Google Fonts</div>
+      <div class="type-meta" style="line-height:1.9">
+        <b style="color:var(--ink-800)">Bricolage Grotesque</b> — opsz 12–96, wght 400–800<br>
+        → All headings (H1–H4), display numbers<br>
+        <b style="color:var(--ink-800)">Hanken Grotesk</b> — wght 400–800<br>
+        → Body, lead, UI labels, buttons<br>
+        <b style="color:var(--ink-800)">Space Mono</b> — wght 400, 700<br>
+        → Eyebrows, mono tags, sticker text<br>
+        <b style="color:var(--ink-800)">Caveat</b> — wght 500–700<br>
+        → Hand accent only (use sparingly)
+      </div>
+      <div class="note">
+        <b>Webflow:</b> Project Settings → Fonts → Add Google Fonts. Add all 4 separately. After adding, set font-family in Webflow's Global Styles → Body (Hanken Grotesk 400). For Bricolage: apply only to heading tags via Tag Styles (h1–h4). For Space Mono + Caveat: apply only via named classes — never globally.
+      </div>
+    </div>
+
+    <div>
+      <div class="sec">Misc Tokens</div>
+      <div style="background:var(--cobalt-500);background-image:linear-gradient(160deg,var(--cobalt-500),var(--cobalt-700));border-radius:8px;padding:8px 10px;color:#fff;margin-bottom:4px">
+        <div style="font-family:var(--f-mono);font-size:7.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--sky-200);margin-bottom:3px">Mission panel</div>
+        <div style="font-family:var(--f-display);font-weight:800;font-size:11px;line-height:1.1">bg: cobalt-500 → cobalt-700 · 160deg · radius 32px · pad 64px</div>
+      </div>
+      <div style="background:var(--cobalt-50);border:1.5px solid var(--ink-200);border-radius:8px;padding:7px 9px;margin-bottom:4px">
+        <div style="font-family:var(--f-display);font-weight:800;font-size:10px;margin-bottom:2px">Surface card</div>
+        <div class="type-meta">bg #fff · border 1.5px ink-200 · radius 16px · shadow sm</div>
+      </div>
+      <div class="type-meta" style="line-height:1.9;margin-bottom:3px">
+        <b>Team photo card:</b> bg ink-100 · 3:4 ratio · radius 10px · initials center<br>
+        <b>Avatar circle:</b> bg cobalt-500 · 44px · radius 999px · Bricolage 800 15px #fff<br>
+        <b>Paper grain:</b> radial-gradient(ink-200 1px,transparent 1px) 26×26px · opacity .5 · position fixed · pointer-events none
+      </div>
+      <div class="note note-moss">
+        <b>Paper grain effect</b> (body texture): In Webflow, add a &lt;div&gt; with class <b>grain-overlay</b>, position: fixed, top/left/right/bottom: 0, z-index: 0, pointer-events: none. Custom CSS: <b>background-image: radial-gradient(var(--ink-200) 1px, transparent 1px); background-size: 26px 26px; opacity: 0.5;</b> This sits behind all content — add z-index: 1 to the main content wrapper to render above it.
+      </div>
+    </div>
+
+  </div>
+
+</div>
+</body>
+</html>
