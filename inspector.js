@@ -156,38 +156,71 @@
     return hits.length ? hits[hits.length - 1] : null;
   }
 
-  // Formats a size row showing both the rendered pixel value and either:
-  //   a) the original CSS formula when one exists (clamp, %, min/max, etc.)
-  //   b) an explanation when no formula exists (size is computed by layout)
+  // Badge HTML helpers
+  function badge(text, color) {
+    return `<span style="background:${color};color:#fff;border-radius:3px;padding:1px 5px;font-size:7.5px;font-weight:700;letter-spacing:.04em;margin-left:5px;vertical-align:middle">${text}</span>`;
+  }
+
+  // Returns info about why the browser chose a size when no CSS formula exists.
+  // responsive: true  → size will change as browser window resizes
+  // responsive: false → size is fixed / shrinks to content and won't flex
+  let _currentEl = null;
+  function _layoutInfo() {
+    if (!_currentEl) return { responsive: true, desc: 'browser layout' };
+    const cs       = window.getComputedStyle(_currentEl);
+    const parentEl = _currentEl.parentElement;
+    const pcs      = parentEl ? window.getComputedStyle(parentEl) : null;
+
+    // flex-grow > 0 means this element actively stretches to fill leftover space
+    if (parseFloat(cs.flexGrow) > 0) {
+      return { responsive: true, desc: 'flex-grow — stretches to fill leftover space in its row/column' };
+    }
+
+    if (pcs) {
+      const pd = pcs.display;
+      if (pd === 'grid' || pd === 'inline-grid') {
+        return { responsive: true, desc: 'grid cell — width/height assigned by the parent\'s grid-template-columns / grid-template-rows' };
+      }
+      if (pd === 'flex' || pd === 'inline-flex') {
+        return { responsive: true, desc: 'flex child — size is shared/distributed among siblings in the flex container' };
+      }
+    }
+
+    const d = cs.display;
+    if (d === 'block' || d === 'list-item') {
+      return { responsive: true, desc: 'block flow — automatically fills 100% of its container\'s width, so it resizes when the browser window changes' };
+    }
+    if (d === 'inline' || d === 'inline-block' || d === 'inline-flex') {
+      return { responsive: false, desc: 'inline — shrinks to fit its content, does not stretch' };
+    }
+
+    return { responsive: true, desc: 'browser layout' };
+  }
+
+  // Formats a size row showing:
+  //   • the rendered pixel value (what it is right now at this browser width)
+  //   • if a CSS formula exists and differs → show the formula + RESPONSIVE or FIXED badge
+  //   • if no CSS formula → explain HOW the browser sized it + RESPONSIVE or FIXED badge
   function sizeRow(label, renderedVal, formula) {
     let sub = '';
+
     if (formula && formula !== renderedVal) {
-      // A CSS formula was found and it differs from the resolved px value
-      sub = `<br><span style="color:#5A82CC;font-size:8px">formula → ${formula}</span>`;
-    } else if (!formula) {
-      // No CSS rule sets this property — the browser computed it from layout
-      sub = `<br><span style="color:#4C5566;font-size:8px">no CSS formula — browser sized this automatically via ${_layoutSource()}</span>`;
+      // CSS formula found — check if it's inherently responsive
+      const isResp = /(%|vw|vh|vmin|vmax|calc\(|clamp\(|min\(|max\()/.test(formula);
+      sub = `<br><span style="color:#5A82CC;font-size:8px">formula → ${formula}${badge(isResp ? 'RESPONSIVE' : 'FIXED', isResp ? '#234A97' : '#687284')}</span>`;
+    } else if (formula && formula === renderedVal) {
+      // Formula is already a plain px value — fixed
+      sub = `${badge('FIXED', '#687284')}`;
+    } else {
+      // No CSS formula — explain why and whether it's responsive
+      const info = _layoutInfo();
+      sub = `<br><span style="color:#4C5566;font-size:8px">${badge(info.responsive ? 'RESPONSIVE' : 'FIXED', info.responsive ? '#234A97' : '#687284')} no CSS value set — ${info.desc}</span>`;
     }
-    return `<div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:4px">
+
+    return `<div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:5px">
       <span style="color:#687284;flex-shrink:0;min-width:0">${label}</span>
       <span style="text-align:right;flex-shrink:1;word-break:break-all"><span style="color:#E1EEFC">${renderedVal}</span>${sub}</span>
     </div>`;
-  }
-
-  // Tiny helper used inside sizeRow — reads _currentEl set just before renderPanel
-  // to give a human-readable reason why the browser chose the size it did.
-  let _currentEl = null;
-  function _layoutSource() {
-    if (!_currentEl) return 'layout';
-    const cs = window.getComputedStyle(_currentEl);
-    const parentCs = _currentEl.parentElement ? window.getComputedStyle(_currentEl.parentElement) : null;
-    if (parentCs) {
-      if (parentCs.display === 'grid')             return 'grid column/row assignment';
-      if (parentCs.display === 'flex' || parentCs.display === 'inline-flex') return 'flex distribution';
-    }
-    if (cs.display === 'block' || cs.display === 'list-item') return 'block flow (fills container width)';
-    if (cs.display === 'inline' || cs.display === 'inline-block') return 'inline flow (shrinks to content)';
-    return 'layout';
   }
 
   function getComp(el) {
